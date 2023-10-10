@@ -7,10 +7,58 @@
         <title>Todo List app - TypeScript</title>
         <link rel="stylesheet" href="./styles/index.css">
         <link rel="shortcut icon" href="./assets/favicon.8602d591.ico" type="image/x-icon">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
     </head>
     <body>
-        
+        <main class="app">
+            <header class="app-heading">
+                <h1 class="heading-title">Todo list with TypeScript</h1>
+                <p class="heading-description">
+                    Build from <a href="https://www.typescriptlang.org/" class="underline-text" target="_blank">TypeScript</a>
+                    and <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller" class="underline-text" target="_blank">MVC model</a>
+                </p>
+            </header>
+            <div class="app-todo-content">
+                <div class="content-input">
+                    <i class="fa fa-check check-all"></i>
+                    <input id="task-input" class="task-input" type="text" placeholder="What will you focus on today?">
+                </div>
+                <ul class="list-task"></ul>
+                <div class="content-action">
+                    <p class="total-item"></p>
+                    <ul class="task-filter">
+                        <li class="task-filter-item"><a data-action="all" href="#all" class="selected item all active-btn" tabindex="0">All</a></li>
+                        <li class="task-filter-item"><a data-action="active" href="#active" class="active item selected" tabindex="0">Active</a></li>
+                        <li class="task-filter-item"><a data-action="completed" href="#completed" class="completed item selected" tabindex="0">Completed</a></li>
+                    </ul>
+                    <a href=""><p class="clear-completed">Clear completed</p></a>
+                </div>
+            </div>
+            <div id="confirm-dialog" class="confirm-dialog">
+                <div class="confirm-heading">
+                    <h2 class="confirm-heading-title">Confirm</h2>
+                    <p class="confirm-heading-description">Are you sure? This action will be to remove this item and can't undo it!</p>
+                </div>
+                <div class="confirm-action">
+                    <button id="confirm-cancel" class="confirm-cancel btn">Cancel</button>
+                    <button id="confirm-yes" class="confirm-yes btn">Yes</button>
+                </div>
+            </div>
+            <div id="notification-dialog" class="notification-dialog">
+                <p class="notification-content">Mention</p>
+                <i class="fa fa-close close-notification-btn" id="close-notification"></i>
+            </div>
+        </main>
+        <div class="app__loading loading">
+            <div class="preloader">
+              <div class="preloader__absolute">
+                <div class="preloader__item"></div>
+                <div class="preloader__item"></div>
+                <div class="preloader__item"></div>
+                <div class="preloader__item"></div>
+              </div>
+            </div>
+          </div>
+        <div class="overlay" id="overlay"></div>
+        <script type="module" src="./scripts/index.ts"></script>
     </body>
-    <script type="module" src="./scripts/index.ts"></script>
 </html>

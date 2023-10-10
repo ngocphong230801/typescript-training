@@ -1,0 +1,215 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
+.app .app-todo-content {
+  width: 550px;
+  height: max-content;
+  margin: 0 auto;
+  background-color: var(--tertiary-color);
+  border-radius: 10px;
+  font-family: var(--font-secondary);
+}
+
+.app-todo-content .content-input {
+  display: flex;
+  height: 52px;
+  box-shadow: 0 2px 5px -3px grey;
+}
+
+.app-todo-content .fa-check {
+  color: var(--color-icon-primary);
+  margin-top: 17px;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.app-todo-content .task-input {
+  border: none;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  padding-left: 25px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.app-todo-content .task-input:focus {
+  outline: none;
+}
+
+.app-todo-content .content-action {
+  display: flex;
+  box-shadow: 0 -2px 6px -4px grey;
+}
+
+.app-todo-content .task-filter {
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+  margin-left: 30px;
+}
+
+.app-todo-content .task-filter-item {
+  font-size: var(--font-size-text-md);
+  margin: 0 2px;
+}
+
+.app-todo-content .task-filter-item .item {
+  color: var(--secondary-color);
+  border: 1px solid rgba(0,0,0,0);
+  border-radius: 2px;
+  padding: 5px;
+  outline: none;
+}
+
+.app-todo-content .task-filter-item .item.active-btn {
+  border: 1px solid var(--quaternary-color);
+  padding: 5px;
+  outline: none;
+}
+
+.app-todo-content .clear-completed {
+  margin-left: 65px;
+  color: var(--secondary-color);
+}
+
+.app-todo-content .list-task {
+  padding: 0;
+  margin: 0;
+  max-height: 50vh;
+  overflow: auto;
+}
+
+.app-todo-content .content-data {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  position: relative;
+  height: 58px;
+}
+
+.app-todo-content .content-data:not(:last-child) {
+  border-bottom: 1px solid #d6d6d6;
+}
+
+.app-todo-content .content-data:hover {
+  background-color: #dbdee5;
+  cursor: pointer;
+}
+
+.app-todo-content .content-data:hover .close-task {
+  display: block;
+}
+
+.app-todo-content .close-task {
+  position: absolute;
+  right: 20px;
+  color: var(--color-icon-secondary);
+  cursor: pointer;
+  display: none;
+}
+
+.app-todo-content .fa-circle {
+  margin-left: 20px;
+  color: var(--color-icon-primary);
+  cursor: pointer;
+}
+
+.app-todo-content .task-content {
+  margin-left: 25px;
+}
+
+.app-todo-content .input-edit {
+  width: 440px;
+}
+
+.app-todo-content .input-edit:focus {
+  outline: none;
+}
+
+.app-todo-content .task-timestamp {
+  font-size: var(--font-size-text-base);
+  position: absolute;
+  right: 10px;
+  top: 35px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #dbdee5;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #34a853;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4285f4;
+}
+
+.task-icon.clicked + .task-content {
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+
+.app-todo-content .task-icon {
+  z-index: 1000;
+  margin-left: 20px;
+  text-align: center;
+  color: green;
+}
+
+.app-todo-content .checkmark {
+  position: absolute;
+  left: 20px;
+  z-index: 900; 
+  color: green;
+}
+
+.app-todo-content .total-item {
+  display: block;
+  padding-left: 15px;
+}
+
+@media screen and (max-width:576px) {
+  .app .app-todo-content {
+    width: 450px;
+  }
+
+  .content-action {
+    gap: 5px;
+  }
+
+  .app-todo-content .clear-completed {
+    margin-left: 0;
+    align-items: center;
+  }
+
+  .task-filter {
+    padding: 0;
+    align-items: center;
+  }
+}
+
+
+@media screen and (max-width:485px) {
+  .app .app-todo-content {
+    width: 400px;
+  }
+}
+
+@media screen and (max-width:400px) {
+  .app .app-todo-content {
+    width: 350px;
+  }
+
+  .content-action {
+    gap: 2px;
+  }
+
+  .app-todo-content .clear-completed {
+    margin-top: 25px;
+    margin-right: 2px;
+    align-items: center;
+  }
+}
