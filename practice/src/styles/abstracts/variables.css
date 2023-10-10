@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css?family=Google+Sans+Display:400,500');
+
+:root {
+    /* Font */
+    --font-primary:  Arial, Helvetica, sans-serif; 
+    --font-secondary: Google Sans Display ,Arial,Helvetica,sans-serif;
+    /* Theme */
+    --primary-color: #fff;
+    --secondary-color: #000;
+    --tertiary-color: #fbfbfb;
+    --quaternary-color: #eed5d6;
+
+    /* Color-icon */
+
+    --color-icon-primary: green;
+    --color-icon-secondary: red;
+
+     /* Text-color */
+    --color-text-default: #000;
+    --color-text-primary: #0170fe;
+    --color-text-secondary: #4c4c4c;
+    --color-text-tertiary: #155724;
+    --color-text-quaternary: #004085;
+
+
+    /* Text font size*/
+    --font-size-text-2xl: 25px;
+    --font-size-text-xl: 20px;
+    --font-size-text-lg: 18px;
+    --font-size-text-md: 16px;
+    --font-size-text-sm: 14px;
+    --font-size-text-base: 10px;
+
+    /* Font weight */
+    --font-weight-base: 400;
+    --font-weight-light: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
+    /* Webkit-scrollbar */
+    --webkit-scrollbar-default :#dbdee5;
+    --webkit-scrollbar-primary: #34A853;
+    --webkit-scrollbar-secondary: #4285F4;
+
+    /* Background data */
+    --background-data-primary: #dbdee5;
+
+    /* Mention color */
+    --  : #cce5ff;
+    --backgound-mention-secondary: #d4edda; 
+
+    /* Boder color */
+    --boder-color-primary: #d6d6d6;
+    --boder-color-secondary: #155724;
+    --boder-color-tertiary: #004085;
+}
