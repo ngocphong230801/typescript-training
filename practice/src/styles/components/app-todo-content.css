@@ -68,6 +68,7 @@
 .app-todo-content .clear-completed {
   margin-left: 65px;
   color: var(--secondary-color);
+  cursor: pointer;
 }
 
 .app-todo-content .list-task {
