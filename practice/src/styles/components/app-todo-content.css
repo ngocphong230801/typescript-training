@@ -71,7 +71,7 @@
   cursor: pointer;
 }
 
-.app-todo-content .list-task {
+.app-todo-content .list-of-tasks {
   padding: 0;
   margin: 0;
   max-height: 50vh;
