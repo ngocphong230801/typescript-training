@@ -1,8 +1,9 @@
-import handleError from "../constants/messages";
+import handleError from "../helpers/messages";
+import { Task } from "./types";
 
 interface Storage {
-    getTasks: () => any[];
-    saveTasks: (tasks: any[]) => void;
+    getTasks: () => Task[];
+    saveTasks: (tasks: Task[]) => void;
 }
 
 const storage: Storage = {

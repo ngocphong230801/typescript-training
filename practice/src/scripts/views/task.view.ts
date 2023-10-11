@@ -1,4 +1,4 @@
-import { querySelector } from "../helpers/dom-element";
+import { querySelector } from "../helpers";
 
 class TaskView {
     private loadingElement: HTMLElement | null;

@@ -1,12 +1,5 @@
 import storage from "../services/localStorage";
-
-interface Task {
-    id: number;
-    content: string;
-    createdAt: string;
-    updatedAt: string;
-    isCompleted: boolean;
-}
+import { Task } from "../services/types";
 
 class TaskModel {
     private tasks: Task[];
