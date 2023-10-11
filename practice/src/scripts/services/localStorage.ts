@@ -6,31 +6,21 @@ interface Storage {
     saveTasks: (tasks: Task[]) => void;
 }
 
-let cachedTasks: Task[] | null = null;
-
 const storage: Storage = {
     getTasks: () => {
+        let tasks: Task[] = [];
         try {
-            if (cachedTasks !== null) {
-                return cachedTasks;
-            }
-
-            const tasksJSON = localStorage.getItem('tasks');
-            const tasks = tasksJSON ? JSON.parse(tasksJSON) : [];
-
-            cachedTasks = tasks;
-
-            return tasks;
+            const dataStoraged = localStorage.getItem('tasks');
+            tasks = dataStoraged ? JSON.parse(dataStoraged) : [];
         } catch (error) {
             customErrorMessages('getting tasks', error);
-            return [];
         }
+        return tasks;
     },
 
     saveTasks: (tasks) => {
         try {
             localStorage.setItem('tasks', JSON.stringify(tasks));
-            cachedTasks = tasks;
         } catch (error) {
             customErrorMessages('saving tasks', error);
         }
