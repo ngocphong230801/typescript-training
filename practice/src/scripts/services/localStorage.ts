@@ -1,18 +1,28 @@
-import handleError from "../helpers/messages";
-import { Task } from "./types";
+import customErrorMessages from "../helpers/messages";
+import { Task } from "../constants";
 
 interface Storage {
     getTasks: () => Task[];
     saveTasks: (tasks: Task[]) => void;
 }
 
+let cachedTasks: Task[] | null = null;
+
 const storage: Storage = {
     getTasks: () => {
         try {
+            if (cachedTasks !== null) {
+                return cachedTasks;
+            }
+
             const tasksJSON = localStorage.getItem('tasks');
-            return tasksJSON ? JSON.parse(tasksJSON) : [];
+            const tasks = tasksJSON ? JSON.parse(tasksJSON) : [];
+
+            cachedTasks = tasks;
+
+            return tasks;
         } catch (error) {
-            handleError('getting tasks', error);
+            customErrorMessages('getting tasks', error);
             return [];
         }
     },
@@ -20,8 +30,9 @@ const storage: Storage = {
     saveTasks: (tasks) => {
         try {
             localStorage.setItem('tasks', JSON.stringify(tasks));
+            cachedTasks = tasks;
         } catch (error) {
-            handleError('saving tasks', error);
+            customErrorMessages('saving tasks', error);
         }
     }
 };
