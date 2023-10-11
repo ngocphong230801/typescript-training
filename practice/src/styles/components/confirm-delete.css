@@ -30,7 +30,7 @@
 
 .confirm-dialog .confirm-action {
     display: flex;
-    border-top: 0.1px solid #bfc5bf;
+    border-top: 0.1px solid var(--boder-color-default);
     margin-top: 30px;
     justify-content: space-around;
 }
@@ -44,7 +44,7 @@
 }
 
 .confirm-action .confirm-cancel {
-    border-right: 1px solid #bfc5bf;
+    border-right: 1px solid var(--boder-color-default);
     border-bottom-left-radius: 20px;
     height: 35px;
 }

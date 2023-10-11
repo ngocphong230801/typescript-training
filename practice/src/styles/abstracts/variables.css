@@ -46,11 +46,17 @@
     --background-data-primary: #dbdee5;
 
     /* Mention color */
-    --  : #cce5ff;
+    --backgound-mention-primary: #cce5ff;
     --backgound-mention-secondary: #d4edda; 
 
     /* Boder color */
+    --boder-color-default: #bfc5bf;
     --boder-color-primary: #d6d6d6;
     --boder-color-secondary: #155724;
     --boder-color-tertiary: #004085;
+
+    --preloader-color-default : #4285f4;
+    --preloader-color-primary: #ea4335;
+    --preloader-color-secondary: #34a853;
+    --preloader-color-tertiary: #f9ab00;
 }
