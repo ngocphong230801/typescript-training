@@ -1,5 +1,5 @@
 import storage from "../services/localStorage";
-import { Task } from "../services/types";
+import { Task } from "../constants";
 
 class TaskModel {
     private tasks: Task[];
