@@ -4,7 +4,6 @@ import { Task } from "../constants";
 class TaskModel {
     protected tasks: Task[];
     private lastTaskId: number;
-
     public getTasks(): Task[] {
         return this.tasks;
     }
@@ -18,7 +17,7 @@ class TaskModel {
         this.lastTaskId = 0;
     };
 
-    addTask: (task: string) => void = (task) => {
+    addTask = (task: string): void => {
         const newTask: Task = {
             id: this.lastTaskId++,
             content: task,
@@ -29,7 +28,7 @@ class TaskModel {
         
         this.tasks.unshift(newTask);
         storage.saveTasks(this.tasks);
-    }
+    };
 }
 
 export default TaskModel;

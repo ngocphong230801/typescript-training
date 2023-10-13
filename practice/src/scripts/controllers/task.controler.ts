@@ -13,21 +13,20 @@ class TaskController {
         this.taskView.setTaskAddedHandler(this.handleTaskAdded);
     }
 
-    public init: () => void = () => {
+    public init = (): void =>  {
         this.taskView.renderTasks(this.taskModel.getTasks());
     };
 
-    handleTaskAdded = (task: string) => {
+    handleTaskAdded: (task: string) => void = (task) => {
         const trimmedTask = task.trim();
 
-        if (trimmedTask !== "") {
+        if (trimmedTask) {
             this.taskModel.addTask(trimmedTask);
             this.taskView.renderTasks(this.taskModel.getTasks());
         } else {
             console.warn("Empty task not added");
         }
     };
-
 }
 
 export default TaskController;

@@ -13,9 +13,8 @@ class TaskView {
 
             await new Promise((resolve) => setTimeout(resolve, 1000));
 
-            if (this.loadingElement) {
-                this.loadingElement.style.display = "none";
-            } else {
+            this.loadingElement.style.display = "none";
+            if (!this.loadingElement) {
                 console.error("Loading element not found");
             }
         });
@@ -25,30 +24,32 @@ class TaskView {
         this.init();
     }
 
-    init: () => void = () => {
+    init = (): void => {
         this.taskInput.addEventListener("keyup", this.handleTaskInput);
-    }
+    };
 
-    renderTasks: (tasks: { id: number; content: string }[]) => void = (tasks) => {
-        this.taskList.innerHTML = tasks.map((task: { id: number; content: string }) => 
-        `<li data-id="${task.id}" class="content-data">
+    renderTasks = (tasks: { id: number; content: string }[]): void => {
+        this.taskList.innerHTML = tasks.map(({ id, content }) => 
+        `<li data-id="${id}" class="content-data">
             <i class="fa fa-circle-o task-icon"></i>
-            <p class="task-content">${task.content}</p>
+            <p class="task-content">${content}</p>
             <i class="fa fa-times close-task"></i>   
          </li>`).join("");
     };
 
-    handleTaskInput = (event: KeyboardEvent) => {
+    handleTaskInput = (event: KeyboardEvent): void => {
         if (event.key === keys.Enter) {
-            const newTask = (event.target as HTMLInputElement).value;
+            const newTask = (event.target as HTMLInputElement).value.trim();
             (event.target as HTMLInputElement).value = "";
-            this.onTaskAdded(newTask);
+            if (newTask) {
+                this.onTaskAdded(newTask);
+            }
         }
-    }
+    };
 
-    setTaskAddedHandler = (callback: (task: string) => void) => {
+    setTaskAddedHandler = (callback: (task: string) => void): void => {
         this.onTaskAdded = callback;
-    }
+    };
 }
 
 export default TaskView;
