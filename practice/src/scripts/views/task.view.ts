@@ -25,17 +25,17 @@ class TaskView {
         this.init();
     }
 
-    init = () => {
+    init: () => void = () => {
         this.taskInput.addEventListener("keyup", this.handleTaskInput);
     }
 
-    renderTasks = (tasks: { id: number, content: string }[]) => {
-        this.taskList.innerHTML = tasks.map(task => 
-            `<li data-id="${task.id}" class="content-data">
-                <i class="fa fa-circle-o task-icon"></i>
-                <p class="task-content">${task.content}</p>
-                <i class="fa fa-times close-task"></i>   
-            </li>`).join("");
+    renderTasks: (tasks: { id: number; content: string }[]) => void = (tasks) => {
+        this.taskList.innerHTML = tasks.map((task: { id: number; content: string }) => 
+        `<li data-id="${task.id}" class="content-data">
+            <i class="fa fa-circle-o task-icon"></i>
+            <p class="task-content">${task.content}</p>
+            <i class="fa fa-times close-task"></i>   
+         </li>`).join("");
     };
 
     handleTaskInput = (event: KeyboardEvent) => {

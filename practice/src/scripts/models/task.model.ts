@@ -13,12 +13,12 @@ class TaskModel {
         this.init();
     }
 
-    init = () => {
+    init = (): void => {
         this.tasks = storage.getTasks();
         this.lastTaskId = 0;
     };
 
-    addTask = (task: string) => {
+    addTask: (task: string) => void = (task) => {
         const newTask: Task = {
             id: this.lastTaskId++,
             content: task,

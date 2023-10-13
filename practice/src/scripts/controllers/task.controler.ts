@@ -13,7 +13,7 @@ class TaskController {
         this.taskView.setTaskAddedHandler(this.handleTaskAdded);
     }
 
-    public init = () => {
+    public init: () => void = () => {
         this.taskView.renderTasks(this.taskModel.getTasks());
     };
 
