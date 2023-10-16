@@ -51,13 +51,12 @@ class TaskView {
 
         this.taskList.innerHTML = tasks
             .map(({ id, content }: { id: number; content: string }) => 
-                `<li data-id="${id}" class="content-data">
-                    <i class="fa fa-circle-o task-icon"></i>
-                    <p class="task-content">${content}</p>
-                    <i class="fa fa-times close-task" data-task-id="${id}"></i>   
-                 </li>`
-            )
-            .join("");
+            `<li data-id="${id}" class="content-data">
+                <i class="fa fa-circle-o task-icon"></i>
+                <p class="task-content">${content}</p>
+                <i class="fa fa-times close-task"></i>   
+            </li>`
+        ).join("");
 
             const closeIcons = this.taskList.querySelectorAll('.close-task');
             closeIcons.forEach(icon => {
@@ -80,7 +79,6 @@ class TaskView {
 
         if (taskId) {
             this.showConfirmDialog();
-
             this.currentTaskId = Number(taskId);
         }
     };
