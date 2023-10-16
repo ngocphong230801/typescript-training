@@ -19,7 +19,7 @@ class TaskController {
         this.taskView.setTaskClosedHandler(this.handleTaskClosed);
     };
 
-    handleTaskAdded: (task: string) => void = (task) => {
+    handleTaskAdded = (task: string): void => {
         const taskName: string = task.trim();
     
         if (taskName) {
@@ -30,7 +30,7 @@ class TaskController {
         }
     };
 
-    handleTaskClosed: (taskId: number) => void = (taskId) => {
+    handleTaskClosed = (taskId: number): void  => {
         this.taskModel.setCurrentTaskId(taskId);
         this.taskModel.removeTask();
         this.taskView.renderTasks(this.taskModel.getTasks());

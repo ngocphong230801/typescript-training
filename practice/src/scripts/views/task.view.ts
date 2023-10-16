@@ -84,31 +84,36 @@ class TaskView {
         }
     };
 
+    toggleConfirmDialog = (show: boolean): void => {
+        if (show) {
+            this.confirmDialog.style.display = "block";
+            this.overlay.style.display = "block";
+        } else {
+            this.confirmDialog.style.display = "none";
+            this.overlay.style.display = "none";
+        }
+    };
+
     handleConfirmYes = (): void => {
         if (this.currentTaskId !== null) {
             this.onTaskClosed(this.currentTaskId);
-            this.hideConfirmDialog();
+            this.toggleConfirmDialog(false);
             this.currentTaskId = null;
         }
     };
 
     handleConfirmCancel = (): void => {
-        this.hideConfirmDialog();
-
+        this.toggleConfirmDialog(false);
         this.currentTaskId = null;
     };
 
     showConfirmDialog = (): void => {
-        this.confirmDialog.style.display = "block";
-        this.overlay.style.display = "block";
+        this.toggleConfirmDialog(true);
     };
 
     hideConfirmDialog = (): void => {
-        this.confirmDialog.style.display = "none";
-        this.overlay.style.display = "none";
+        this.toggleConfirmDialog(false);
     };
-
-
 
     setTaskAddedHandler = (callback: (task: string) => void): void => {
         this.onTaskAdded = callback;
