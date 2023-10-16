@@ -7,6 +7,7 @@ class TaskModel {
     public getTasks(): Task[] {
         return this.tasks;
     }
+    private currentTaskId: number | null = null;
 
     constructor() {
         this.init();
@@ -28,6 +29,17 @@ class TaskModel {
         
         this.tasks.unshift(newTask);
         storage.saveTasks(this.tasks);
+    };
+
+    setCurrentTaskId = (taskId: number): void => {
+        this.currentTaskId = taskId;
+    };
+
+    removeTask = (): void => {
+        if (this.currentTaskId !== null) {
+            this.tasks = this.tasks.filter(task => task.id !== this.currentTaskId);
+            storage.saveTasks(this.tasks);
+        }
     };
 }
 

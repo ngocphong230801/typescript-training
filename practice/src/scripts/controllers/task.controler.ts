@@ -15,6 +15,8 @@ class TaskController {
 
     public init = (): void =>  {
         this.taskView.renderTasks(this.taskModel.getTasks());
+        this.taskView.setTaskAddedHandler(this.handleTaskAdded);
+        this.taskView.setTaskClosedHandler(this.handleTaskClosed);
     };
 
     handleTaskAdded: (task: string) => void = (task) => {
@@ -26,6 +28,12 @@ class TaskController {
         } else {
             console.warn("Empty task not added");
         }
+    };
+
+    handleTaskClosed: (taskId: number) => void = (taskId) => {
+        this.taskModel.setCurrentTaskId(taskId);
+        this.taskModel.removeTask();
+        this.taskView.renderTasks(this.taskModel.getTasks());
     };
     
 }
