@@ -5,17 +5,29 @@ class TaskController {
     private taskModel: TaskModel;
     private taskView: TaskView; 
 
-    constructor(taskModel: any, taskView: TaskView) {
+    constructor(taskModel: TaskModel, taskView: TaskView) {
         this.taskModel = taskModel;
         this.taskView = taskView;
 
         this.init();
+        this.taskView.setTaskAddedHandler(this.handleTaskAdded);
     }
 
-    public init = () => {
-       
+    public init = (): void =>  {
+        this.taskView.renderTasks(this.taskModel.getTasks());
     };
 
+    handleTaskAdded: (task: string) => void = (task) => {
+        const taskName: string = task.trim();
+    
+        if (taskName) {
+            this.taskModel.addTask(taskName);
+            this.taskView.renderTasks(this.taskModel.getTasks());
+        } else {
+            console.warn("Empty task not added");
+        }
+    };
+    
 }
 
 export default TaskController;
