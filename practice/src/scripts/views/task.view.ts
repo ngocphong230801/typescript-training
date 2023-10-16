@@ -29,12 +29,13 @@ class TaskView {
     };
 
     renderTasks = (tasks: { id: number; content: string }[]): void => {
-        this.taskList.innerHTML = tasks.map(({ id, content }) => 
+        this.taskList.innerHTML = tasks.map(({ id, content }: { id: number; content: string }) => 
         `<li data-id="${id}" class="content-data">
             <i class="fa fa-circle-o task-icon"></i>
             <p class="task-content">${content}</p>
             <i class="fa fa-times close-task"></i>   
-         </li>`).join("");
+         </li>`
+        ).join("");
     };
 
     handleTaskInput = (event: KeyboardEvent): void => {
