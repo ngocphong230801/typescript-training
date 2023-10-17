@@ -36,7 +36,7 @@ class TaskModel {
     };
 
     removeTask = (): void => {
-        if (this.currentTaskId) {
+        if (this.currentTaskId !== null) {
             this.tasks = this.tasks.filter(task => task.id !== this.currentTaskId);
             storage.saveTasks(this.tasks);
         }
