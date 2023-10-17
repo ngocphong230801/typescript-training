@@ -71,18 +71,17 @@ class TaskView {
         const contentDataItems = this.taskList.querySelectorAll('.content-data');
         contentDataItems.forEach(item => {
             const contentText = item.querySelector('.task-content') as HTMLElement;
-            const editInput = item.querySelector('.input-edit') as HTMLInputElement;
+            const editInput = item.querySelector('.edit-input') as HTMLInputElement;
 
-            if (contentText && editInput) {
+            item.addEventListener('dblclick', () => {
                 this.toggleElementVisibility(editInput, contentText);
                 editInput.value = contentText.innerText;
                 editInput.focus();
-
+                editInput.classList.add('input-edit');
                 editInput.addEventListener('keyup', (event) => {
                     if (event.key === 'Enter') {
                         contentText.innerText = editInput.value;
                         this.toggleElementVisibility(contentText, editInput);
-
                         if (typeof this.onTaskEdited === 'function') {
                             this.onTaskEdited(Number(item.getAttribute('data-id')), editInput.value);
                         }
@@ -92,7 +91,7 @@ class TaskView {
                 editInput.addEventListener('blur', () => {
                     this.toggleElementVisibility(contentText, editInput);
                 });
-            }
+            });
         });
     };
 
