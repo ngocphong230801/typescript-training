@@ -93,6 +93,11 @@ class TaskView {
                 });
             });
         });
+
+        const contentAction = document.querySelector('.content-action') as HTMLElement;
+        if (contentAction) {
+        contentAction.style.display = tasks.length > 0 ? 'flex' : 'none';
+        }
     };
 
     handleTaskInput = (event: KeyboardEvent): void => {
