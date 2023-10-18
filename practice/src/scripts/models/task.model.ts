@@ -41,6 +41,16 @@ class TaskModel {
             storage.saveTasks(this.tasks);
         }
     };
+
+    editTask = (taskId: number, newContent: string): void => {
+        const taskIndex: number | -1 = this.tasks.findIndex(task => task.id === taskId);
+    
+        if (taskIndex !== -1) {
+            this.tasks[taskIndex].content = newContent;
+            this.tasks[taskIndex].updatedAt = new Date().toISOString();
+            storage.saveTasks(this.tasks);
+        }
+    };
 }
 
 export default TaskModel;

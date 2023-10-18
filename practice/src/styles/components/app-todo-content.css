@@ -124,6 +124,7 @@
 
 .app-todo-content .input-edit {
   width: 440px;
+  margin-left: 25px;
 }
 
 .app-todo-content .input-edit:focus {

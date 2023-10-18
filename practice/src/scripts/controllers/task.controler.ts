@@ -11,12 +11,14 @@ class TaskController {
 
         this.init();
         this.taskView.setTaskAddedHandler(this.handleTaskAdded);
+        this.taskView.setTaskEditedHandler(this.handleTaskEdited);
     }
 
     public init = (): void =>  {
         this.taskView.renderTasks(this.taskModel.getTasks());
         this.taskView.setTaskAddedHandler(this.handleTaskAdded);
         this.taskView.setTaskClosedHandler(this.handleTaskClosed);
+        this.taskView.setTaskEditedHandler(this.handleTaskEdited);
     };
 
     handleTaskAdded = (task: string): void => {
@@ -33,6 +35,11 @@ class TaskController {
     handleTaskClosed = (taskId: number): void  => {
         this.taskModel.setCurrentTaskId(taskId);
         this.taskModel.removeTask();
+        this.taskView.renderTasks(this.taskModel.getTasks());
+    };
+
+    handleTaskEdited = (taskId: number, newContent: string): void => {
+        this.taskModel.editTask(taskId, newContent);
         this.taskView.renderTasks(this.taskModel.getTasks());
     };
     

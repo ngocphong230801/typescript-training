@@ -10,6 +10,7 @@ class TaskView {
     private confirmDialog: HTMLElement;
     private overlay: HTMLElement;
     private currentTaskId: number | null = null;
+    private onTaskEdited: (taskId: number, newContent: string) => void;
 
 
     constructor() {
@@ -53,16 +54,50 @@ class TaskView {
             .map(({ id, content }: { id: number; content: string }) => 
                 `<li data-id="${id}" class="content-data">
                     <i class="fa fa-circle-o task-icon"></i>
-                    <p class="task-content">${content}</p>
+                    <div class="editable-content" data-task-id="${id}" data-content="${content}">
+                        <p class="task-content">${content}</p>
+                        <input type="text" class="edit-input" style="display: none">
+                    </div>
                     <i class="fa fa-times close-task" data-task-id="${id}"></i>   
-                 </li>`
+                </li>`
             )
             .join("");
 
-            const closeIcons = this.taskList.querySelectorAll('.close-task');
-            closeIcons.forEach(icon => {
-                icon.addEventListener('click', this.handleTaskClose as EventListener);
+        const closeIcons = this.taskList.querySelectorAll('.close-task');
+        closeIcons.forEach((icon: Element) => {
+            icon.addEventListener('click', this.handleTaskClose as EventListener);
+        });
+
+        const contentDataItems = this.taskList.querySelectorAll('.content-data');
+        contentDataItems.forEach((item: Element) => {
+            const contentText = item.querySelector('.task-content') as HTMLElement;
+            const editInput = item.querySelector('.edit-input') as HTMLInputElement;
+
+            item.addEventListener('dblclick', () => {
+                this.toggleElementVisibility(editInput, contentText);
+                editInput.value = contentText.innerText;
+                editInput.focus();
+                editInput.classList.add('input-edit');
+                editInput.addEventListener('keyup', (event) => {
+                    if (event.key === 'Enter') {
+                        contentText.innerText = editInput.value;
+                        this.toggleElementVisibility(contentText, editInput);
+                        if (typeof this.onTaskEdited === 'function') {
+                            this.onTaskEdited(Number(item.getAttribute('data-id')), editInput.value);
+                        }
+                    }
+                });
+
+                editInput.addEventListener('blur', () => {
+                    this.toggleElementVisibility(contentText, editInput);
+                });
             });
+        });
+
+        const contentAction = document.querySelector('.content-action') as HTMLElement;
+        if (contentAction) {
+        contentAction.style.display = tasks.length > 0 ? 'flex' : 'none';
+        }
     };
 
     handleTaskInput = (event: KeyboardEvent): void => {
@@ -84,6 +119,18 @@ class TaskView {
         }
     };
 
+    handleTaskDoubleClick = (taskId: number): void => {
+        const content = this.taskList.querySelector(`.editable-content[data-task-id="${taskId}"]`);
+        const contentText = content?.querySelector('.task-content') as HTMLElement;
+        const editInput = content?.querySelector('.input-edit') as HTMLInputElement;
+
+        if (content && contentText && editInput) {
+            this.toggleElementVisibility(editInput, contentText);
+            editInput.value = contentText.innerText;
+            editInput.focus();
+        }
+    };
+
     toggleConfirmDialog = (show: boolean): void => {
         if (show) {
             this.confirmDialog.style.display = "block";
@@ -100,6 +147,11 @@ class TaskView {
             this.toggleConfirmDialog(false);
             this.currentTaskId = null;
         }
+    };
+
+    toggleElementVisibility = (elementToShow: HTMLElement, elementToHide: HTMLElement): void => {
+        elementToShow.style.display = 'block';
+        elementToHide.style.display = 'none';
     };
 
     handleConfirmCancel = (): void => {
@@ -121,6 +173,10 @@ class TaskView {
 
     setTaskClosedHandler = (callback: (taskId: number) => void): void => {
         this.onTaskClosed = callback;
+    };
+
+    setTaskEditedHandler = (callback: (taskId: number, newContent: string) => void): void => {
+        this.onTaskEdited = callback;
     };
 }
 
