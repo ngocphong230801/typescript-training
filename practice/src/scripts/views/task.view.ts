@@ -64,12 +64,12 @@ class TaskView {
             .join("");
 
         const closeIcons = this.taskList.querySelectorAll('.close-task');
-        closeIcons.forEach(icon => {
+        closeIcons.forEach((icon: Element) => {
             icon.addEventListener('click', this.handleTaskClose as EventListener);
         });
 
         const contentDataItems = this.taskList.querySelectorAll('.content-data');
-        contentDataItems.forEach(item => {
+        contentDataItems.forEach((item: Element) => {
             const contentText = item.querySelector('.task-content') as HTMLElement;
             const editInput = item.querySelector('.edit-input') as HTMLInputElement;
 
