@@ -19,18 +19,28 @@ class TaskModel {
     };
 
     addTask = (task: string): void => {
+        const currentTime = new Date();
+        const hours = currentTime.getHours();
+        const formattedHours = (hours % 24) || 24;
+        const minutes = currentTime.getMinutes();
+        const seconds = currentTime.getSeconds();
+        const formattedTime = `${formattedHours}:${minutes}:${seconds.toString().padStart(2, '0')}, ${currentTime.toLocaleDateString(
+            "en-US",
+            { year: "numeric", month: "short", day: "numeric" }
+        )}`;
+    
         const newTask: Task = {
             id: this.lastTaskId++,
             content: task,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
+            createdAt: formattedTime,
+            updatedAt: formattedTime,
             isCompleted: false,
         };
         
         this.tasks.unshift(newTask);
         storage.saveTasks(this.tasks);
     };
-
+    
     setCurrentTaskId = (taskId: number): void => {
         this.currentTaskId = taskId;
     };
@@ -47,7 +57,16 @@ class TaskModel {
     
         if (taskIndex !== -1) {
             this.tasks[taskIndex].content = newContent;
-            this.tasks[taskIndex].updatedAt = new Date().toISOString();
+            const currentTime = new Date();
+            const hours = currentTime.getHours();
+            const formattedHours = (hours % 24) || 24;
+            const minutes = currentTime.getMinutes();
+            const seconds = currentTime.getSeconds();
+            const formattedTime = `${formattedHours}:${minutes}:${seconds.toString().padStart(2, '0')}, ${currentTime.toLocaleDateString(
+                "en-US",
+                { year: "numeric", month: "short", day: "numeric" }
+            )}`;
+            this.tasks[taskIndex].updatedAt = formattedTime;
             storage.saveTasks(this.tasks);
         }
     };
