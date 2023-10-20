@@ -44,21 +44,23 @@ class TaskView {
         this.taskInput.addEventListener("keyup", this.handleTaskInput);
     };
 
-    renderTasks = (tasks: { id: number; content: string }[]): void => {
+    renderTasks = (tasks: { id: number; content: string ; createdAt: string; updatedAt: string; isCompleted: boolean;}[]): void => {
         if (!this.taskList) {
             console.error("Task list element not found");
             return;
         }
 
         this.taskList.innerHTML = tasks
-            .map(({ id, content }: { id: number; content: string }) => 
+            .map(({ id, content, createdAt, updatedAt, isCompleted }: { id: number; content: string; createdAt: string; updatedAt: string; isCompleted: boolean;}) => 
                 `<li data-id="${id}" class="content-data">
                     <i class="fa fa-circle-o task-icon"></i>
+                    <i class="fa fa-check-circle-o checkmark" style="display: none; width: 10px;"></i>
                     <div class="editable-content" data-task-id="${id}" data-content="${content}">
                         <p class="task-content">${content}</p>
                         <input type="text" class="edit-input" style="display: none">
                     </div>
-                    <i class="fa fa-times close-task" data-task-id="${id}"></i>   
+                    <i class="fa fa-times close-task" data-task-id="${id}"></i>
+                    <p class="task-timestamp">Update at: ${updatedAt} - Created at: ${createdAt}</p>  
                 </li>`
             )
             .join("");
