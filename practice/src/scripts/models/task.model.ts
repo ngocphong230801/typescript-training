@@ -172,7 +172,16 @@ class TaskModel {
         }
         renderTasks(taskFilters);
     };
+    
+    hasCompletedTasks(): boolean {
+        return this.tasks.some((task) => task.isCompleted);
+    }
 
+    clearCompletedTasks = (renderTasks: (tasks: Task[]) => void): void => {
+        this.tasks = this.tasks.filter((task) => !task.isCompleted);
+        storage.saveTasks(this.tasks);
+        renderTasks(this.tasks);
+    };
 }
 
 export default TaskModel;

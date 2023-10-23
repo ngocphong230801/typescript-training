@@ -21,6 +21,7 @@ class TaskView {
     private onToggleCompleted: (taskId: number, status: string) => void;
     private onTaskFilter: (action: string) => void;
     private onSetCheckAllToggleTask: () => void;
+    private onClearCompleted: () => void;
 
     constructor(taskModel: TaskModel) {
         this.taskModel = taskModel;
@@ -65,8 +66,13 @@ class TaskView {
                 );
             }
         });
-
+        const clearCompletedButton = querySelector(".clear-completed") as HTMLElement;
+        clearCompletedButton.addEventListener("click", this.handleClearCompleted);
         this.checkAllElement.addEventListener("click",this.handleToggleAllItems);
+    };
+
+    handleClearCompleted = (): void => {
+        this.onClearCompleted();
     };
 
     renderTasks = (tasks: Task[]): void => {
@@ -228,6 +234,15 @@ class TaskView {
         elementToHide.style.display = 'none';
     };
 
+    updateClearCompletedButtonVisibility(): void {
+        const clearCompletedButton = querySelector(".clear-completed") as HTMLElement;
+        const hasCompletedTasks = this.taskModel.hasCompletedTasks();
+    
+        if (clearCompletedButton) {
+            clearCompletedButton.style.display = hasCompletedTasks ? "block" : "none";
+        }
+    }
+
     handleConfirmCancel = (): void => {
         this.toggleConfirmDialog(false);
         this.currentTaskId = null;
@@ -266,6 +281,10 @@ class TaskView {
 
     setCheckAllToggleTask = (callback: () => void): void => {
         this.onSetCheckAllToggleTask = callback;
+    };
+
+    setClearCompletedHandler = (callback: () => void): void => {
+        this.onClearCompleted = callback;
     };
 }
 
