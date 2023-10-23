@@ -1,5 +1,6 @@
 import TaskView from "../views/task.view";
 import TaskModel from "../models/task.model";
+import { querySelectorAll } from "../helpers";
 
 class TaskController {
     private taskModel: TaskModel;
@@ -12,6 +13,10 @@ class TaskController {
         this.init();
         this.taskView.setTaskAddedHandler(this.handleTaskAdded);
         this.taskView.setTaskEditedHandler(this.handleTaskEdited);
+        this.taskView.setToggleCompleted(this.handleToggleCompleted);
+        this.taskView.setTaskFilter(this.handleFilterTask);
+        this.taskView.setCheckAllToggleTask(this.handleCheckAllToggleTask);
+        this.handleReloadWindows();
     }
 
     public init = (): void =>  {
@@ -19,6 +24,33 @@ class TaskController {
         this.taskView.setTaskAddedHandler(this.handleTaskAdded);
         this.taskView.setTaskClosedHandler(this.handleTaskClosed);
         this.taskView.setTaskEditedHandler(this.handleTaskEdited);
+    };
+
+    handleCheckAllToggleTask = (): void => {
+        this.taskModel.checkAllToggleTask(this.taskView.renderTasks);
+    };
+
+    handleReloadWindows = (): void => {
+        const status = window.location.hash;
+        let elements: NodeList = querySelectorAll(".task-filter-item > a");
+
+        elements.forEach(function (element) {
+            if (element instanceof HTMLElement) {
+                element.classList.remove("active-btn");
+                if (element.dataset.action === status.slice(1, status.length)) {
+                    if (
+                        element.dataset.action ===
+                        status.slice(1, status.length)
+                    ) {
+                        element.classList.add("active-btn");
+                    }
+                }
+            }
+        });
+    };
+
+    handleFilterTask = (actionFilter: string): void => {
+        this.taskModel.filterTask(actionFilter, this.taskView.renderTasks);
     };
 
     handleTaskAdded = (task: string): void => {
@@ -32,6 +64,10 @@ class TaskController {
         }
     };
 
+    handleToggleCompleted = (id: number, type: string): void => {
+        this.taskModel.toggleTask(id, type, this.taskView.renderTasks);
+    };
+
     handleTaskClosed = (taskId: number): void  => {
         this.taskModel.setCurrentTaskId(taskId);
         this.taskModel.removeTask();
@@ -42,7 +78,7 @@ class TaskController {
         this.taskModel.editTask(taskId, newContent);
         this.taskView.renderTasks(this.taskModel.getTasks());
     };
-    
+
 }
 
 export default TaskController;

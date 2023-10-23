@@ -1,19 +1,30 @@
-import { querySelector, getElementById } from "../helpers";
-import { keys } from "../constants/keys";
+import { querySelector, getElementById, querySelectorAll } from "../helpers";
+import { Task, keys } from "../constants";
+import TaskModel from "../models/task.model";
 
 class TaskView {
+    private taskModel: TaskModel;
+
+    private Sort: NodeList;
     private loadingElement: HTMLElement | null;
     private taskList: HTMLElement;
     private taskInput: HTMLElement;
+    private checkAllElement: HTMLElement;
+    private navAction: HTMLElement;
+    private totalElement: HTMLElement;
     private onTaskAdded: (task: string) => void;
     private onTaskClosed: (taskId: number) => void;
     private confirmDialog: HTMLElement;
     private overlay: HTMLElement;
     private currentTaskId: number | null = null;
     private onTaskEdited: (taskId: number, newContent: string) => void;
+    private onToggleCompleted: (taskId: number, status: string) => void;
+    private onTaskFilter: (action: string) => void;
+    private onSetCheckAllToggleTask: () => void;
 
+    constructor(taskModel: TaskModel) {
+        this.taskModel = taskModel;
 
-    constructor() {
         window.addEventListener("load", async () => {
             this.loadingElement = querySelector(".app__loading") as HTMLElement;
 
@@ -28,6 +39,10 @@ class TaskView {
         this.taskList = querySelector(".list-of-tasks") as HTMLElement;
         this.taskInput = getElementById("task-input") as HTMLElement;
         this.handleTaskClose = this.handleTaskClose.bind(this);
+        this.Sort = querySelectorAll(".task-filter-item > a");
+        this.checkAllElement = querySelector(".check-all") as HTMLElement;
+        this.totalElement = querySelector(".total-item") as HTMLElement;
+        this.navAction = querySelector(".content-action") as HTMLElement;
 
         this.confirmDialog = getElementById("confirm-dialog") as HTMLElement;
         this.overlay = getElementById("overlay") as HTMLElement;
@@ -42,21 +57,32 @@ class TaskView {
 
     init = (): void => {
         this.taskInput.addEventListener("keyup", this.handleTaskInput);
+        this.taskList.addEventListener("click", this.handleContentDataClick);
+        this.Sort.forEach((element) => {
+            if (element instanceof HTMLElement) {
+                element.addEventListener("click", () =>
+                    this.handleFilerTask(element)
+                );
+            }
+        });
+
+        this.checkAllElement.addEventListener("click",this.handleToggleAllItems);
     };
 
-    renderTasks = (tasks: { id: number; content: string ; createdAt: string; updatedAt: string; isCompleted: boolean;}[]): void => {
+    renderTasks = (tasks: Task[]): void => {
         if (!this.taskList) {
             console.error("Task list element not found");
             return;
         }
 
+        this.totalElement.innerHTML = `${this.taskModel.getTasks("getall").filter((item: Task) => !item.isCompleted).length} item left`;
         this.taskList.innerHTML = tasks
-            .map(({ id, content, createdAt, updatedAt, isCompleted }: { id: number; content: string; createdAt: string; updatedAt: string; isCompleted: boolean;}) => 
-                `<li data-id="${id}" class="content-data">
+            .map(({ id, content, createdAt, updatedAt, isCompleted }: { id: number; content: string; createdAt: string; updatedAt: string; isCompleted: boolean;}) =>  
+                `<li data-id="${id}"  data-checked="${isCompleted ? "true" : "false"}" class="content-data">
                     <i class="fa fa-circle-o task-icon"></i>
-                    <i class="fa fa-check-circle-o checkmark" style="display: none; width: 10px;"></i>
+                    <i class="fa fa-check-circle-o checkmark" style="display: ${isCompleted ? "block" : "none"}; width: 10px;"></i>
                     <div class="editable-content" data-task-id="${id}" data-content="${content}">
-                        <p class="task-content">${content}</p>
+                        <p class="task-content" style="${isCompleted && "text-decoration: line-through; color: #a5a5a5"}">${content}</p>
                         <input type="text" class="edit-input" style="display: none">
                     </div>
                     <i class="fa fa-times close-task" data-task-id="${id}"></i>
@@ -65,7 +91,13 @@ class TaskView {
             )
             .join("");
 
-        const closeIcons = this.taskList.querySelectorAll('.close-task');
+        if (this.taskModel.getTasks("getall").length === 0) {
+            this.navAction.style.display = "none";
+        } else {
+            this.navAction.style.display = "flex";
+        }
+
+        const closeIcons = this.taskList.querySelectorAll(".close-task");
         closeIcons.forEach((icon: Element) => {
             icon.addEventListener('click', this.handleTaskClose as EventListener);
         });
@@ -95,10 +127,50 @@ class TaskView {
                 });
             });
         });
+    };
 
-        const contentAction = document.querySelector('.content-action') as HTMLElement;
-        if (contentAction) {
-        contentAction.style.display = tasks.length > 0 ? 'flex' : 'none';
+    handleToggleAllItems = (): void => {
+        this.onSetCheckAllToggleTask();
+    };
+
+    handleFilerTask(element: HTMLElement): void {
+        const action = element.getAttribute("data-action");
+
+        if (action) {
+            this.onTaskFilter(action);
+            this.Sort.forEach((element) => {
+                if (element instanceof HTMLElement) {
+                    element.classList.remove("active-btn");
+                }
+            });
+            element.classList.add("active-btn");
+        }
+    }
+
+    handleContentDataClick = (event: MouseEvent) => {
+        const clickedElement = event.target as HTMLElement;
+
+        if (clickedElement.classList.contains("task-icon")) {
+            const taskDataId = parseInt(clickedElement.parentElement?.dataset.id || "NaN");
+            const currentStatus = clickedElement.parentElement?.dataset.checked;
+            if (taskDataId || taskDataId === 0 && currentStatus) {
+                const newStatus = currentStatus === "true" ? "unactive" : "active";
+                clickedElement.classList.toggle("clicked");
+                const checkmark = clickedElement.parentElement?.querySelector(".checkmark") as HTMLElement;
+                const taskContentElement = clickedElement.parentElement?.querySelector(".task-content") as HTMLElement;
+
+                if (checkmark && taskContentElement) {
+                    if (newStatus === "active") {
+                        taskContentElement.style.textDecoration = "line-through";
+                        checkmark.style.display = "inline-block";
+                        this.onToggleCompleted(taskDataId, "active");
+                    } else {
+                        taskContentElement.style.textDecoration = "none";
+                        checkmark.style.display = "none";
+                        this.onToggleCompleted(taskDataId, "unactive");
+                    }
+                }
+            }
         }
     };
 
@@ -179,6 +251,21 @@ class TaskView {
 
     setTaskEditedHandler = (callback: (taskId: number, newContent: string) => void): void => {
         this.onTaskEdited = callback;
+    };
+
+
+    setToggleCompleted = (
+        callback: (id: number, status: string) => void
+    ): void => {
+        this.onToggleCompleted = callback;
+    };
+
+    setTaskFilter = (callback: (action: string) => void): void => {
+        this.onTaskFilter = callback;
+    };
+
+    setCheckAllToggleTask = (callback: () => void): void => {
+        this.onSetCheckAllToggleTask = callback;
     };
 }
 
