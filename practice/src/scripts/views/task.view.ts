@@ -202,7 +202,7 @@ class TaskView {
         }
     }
 
-    handleContentDataClick = (event: MouseEvent) => {
+    handleContentDataClick = (event: MouseEvent): void => {
         const clickedElement = event.target as HTMLElement;
 
         if (clickedElement.classList.contains("task-icon")) {
@@ -274,7 +274,7 @@ class TaskView {
         }, 3000);
     };
 
-    hideNotification = () => {
+    hideNotification = () : void => {
         if (this.progessAlert) {
             clearTimeout(this.IDTimer);
             this.notificationDialog.style.display = "none";
@@ -364,9 +364,7 @@ class TaskView {
     };
 
 
-    setToggleCompleted = (
-        callback: (id: number, status: string) => void
-    ): void => {
+    setToggleCompleted = (callback: (id: number, status: string) => void): void => {
         this.onToggleCompleted = callback;
     };
 

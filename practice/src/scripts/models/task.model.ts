@@ -18,6 +18,9 @@ class TaskModel {
     }
     
     private currentTaskId: number | null = null;
+    private ALL_FILTER = "all";
+    private ACTIVE_FILTER = "active";
+    private COMPLETED_FILTER = "completed";
 
     constructor() {
         this.init();
@@ -149,29 +152,24 @@ class TaskModel {
         this.toggleTask(0, "toggle", renderTasks);
     };
 
-    filterTask = (
-        actionFilter: string,
-        renderTasks: (tasks: Task[]) => void
-    ) => {
+    filterTask = (actionFilter: string, renderTasks: (tasks: Task[]) => void) => {
         let taskFilters: null | Task[] = null;
+
         switch (actionFilter) {
-            case "all": {
+            case this.ALL_FILTER:
                 taskFilters = this.tasks;
                 break;
-            }
-            case "active": {
+            case this.ACTIVE_FILTER:
                 taskFilters = this.tasks.filter((task) => !task.isCompleted);
                 break;
-            }
-            case "completed": {
+            case this.COMPLETED_FILTER:
                 taskFilters = this.tasks.filter((task) => task.isCompleted);
                 break;
-            }
-            default: {
+            default:
                 taskFilters = this.tasks;
                 break;
-            }
         }
+
         renderTasks(taskFilters);
     };
     
