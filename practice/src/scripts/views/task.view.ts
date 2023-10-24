@@ -1,5 +1,5 @@
 import { querySelector, getElementById, querySelectorAll } from "../helpers";
-import { Task, keys } from "../constants";
+import { messageNotify, Task, keys } from "../constants";
 import TaskModel from "../models/task.model";
 
 class TaskView {
@@ -12,6 +12,9 @@ class TaskView {
     private checkAllElement: HTMLElement;
     private navAction: HTMLElement;
     private totalElement: HTMLElement;
+    private notificationDialog: HTMLDivElement;
+    private notificationContent: HTMLElement;
+    private closeNotifyCation: HTMLElement;
     private onTaskAdded: (task: string) => void;
     private onTaskClosed: (taskId: number) => void;
     private confirmDialog: HTMLElement;
@@ -22,6 +25,8 @@ class TaskView {
     private onTaskFilter: (action: string) => void;
     private onSetCheckAllToggleTask: () => void;
     private onClearCompleted: () => void;
+    private IDTimer: NodeJS.Timeout;
+    private progessAlert: boolean = false;
 
     constructor(taskModel: TaskModel) {
         this.taskModel = taskModel;
@@ -44,9 +49,12 @@ class TaskView {
         this.checkAllElement = querySelector(".check-all") as HTMLElement;
         this.totalElement = querySelector(".total-item") as HTMLElement;
         this.navAction = querySelector(".content-action") as HTMLElement;
+        this.notificationDialog = querySelector("#notification-dialog") as HTMLDivElement;
+        this.notificationContent = querySelector(".notification-content") as HTMLElement;
 
         this.confirmDialog = getElementById("confirm-dialog") as HTMLElement;
         this.overlay = getElementById("overlay") as HTMLElement;
+        this.closeNotifyCation = querySelector("#close-notification") as HTMLElement;
 
         const confirmYesButton = getElementById("confirm-yes") as HTMLElement;
         const confirmCancelButton = getElementById("confirm-cancel") as HTMLElement;
@@ -69,9 +77,16 @@ class TaskView {
         const clearCompletedButton = querySelector(".clear-completed") as HTMLElement;
         clearCompletedButton.addEventListener("click", this.handleClearCompleted);
         this.checkAllElement.addEventListener("click",this.handleToggleAllItems);
+        this.closeNotifyCation.addEventListener("click", () => {
+            this.notificationDialog.style.display = "none";
+        });
     };
 
     handleClearCompleted = (): void => {
+        this.handleShowNotify(
+            messageNotify.find((item) => item.type === "clear")
+                ?.message as string
+        );
         this.onClearCompleted();
     };
 
@@ -126,6 +141,11 @@ class TaskView {
                         this.toggleElementVisibility(contentText, editInput);
                         if (typeof this.onTaskEdited === 'function') {
                             this.onTaskEdited(Number(item.getAttribute('data-id')), editInput.value);
+                            this.handleShowNotify(
+                                messageNotify.find(
+                                    (item) => item.type === "edit"
+                                )?.message as string
+                            );
                         }
                     }
                 });
@@ -138,11 +158,36 @@ class TaskView {
     };
 
     handleToggleAllItems = (): void => {
+        const checkAllChecked = this.taskModel
+            .getTasks("getall")
+            .find((item) => !item.isCompleted);
+
+        if (checkAllChecked) {
+            this.handleShowNotify(
+                messageNotify.find((item) => item.type === "toggle-active-all")
+                    ?.message as string
+            );
+        } else {
+            this.handleShowNotify(
+                messageNotify.find(
+                    (item) => item.type === "toggle-unactive-all"
+                )?.message as string
+            );
+        }
+
         this.onSetCheckAllToggleTask();
     };
 
     handleFilerTask(element: HTMLElement): void {
         const action = element.getAttribute("data-action");
+
+        if (action !== "all") {
+            this.handleShowNotify(
+                messageNotify.find((item) => item.type === action)
+                    ?.message as string,
+                "filter"
+            );
+        }
 
         if (action) {
             this.onTaskFilter(action);
@@ -161,7 +206,7 @@ class TaskView {
         if (clickedElement.classList.contains("task-icon")) {
             const taskDataId = parseInt(clickedElement.parentElement?.dataset.id || "NaN");
             const currentStatus = clickedElement.parentElement?.dataset.checked;
-            if (taskDataId || taskDataId === 0 && currentStatus) {
+            if (taskDataId || (taskDataId === 0 && currentStatus)) {
                 const newStatus = currentStatus === "true" ? "unactive" : "active";
                 clickedElement.classList.toggle("clicked");
                 const checkmark = clickedElement.parentElement?.querySelector(".checkmark") as HTMLElement;
@@ -172,7 +217,17 @@ class TaskView {
                         taskContentElement.style.textDecoration = "line-through";
                         checkmark.style.display = "inline-block";
                         this.onToggleCompleted(taskDataId, "active");
+                        this.handleShowNotify(
+                            messageNotify.find(
+                                (item) => item.type === "toggle-active"
+                            )?.message as string
+                        );
                     } else {
+                        this.handleShowNotify(
+                            messageNotify.find(
+                                (item) => item.type === "toggle-unactive"
+                            )?.message as string
+                        );
                         taskContentElement.style.textDecoration = "none";
                         checkmark.style.display = "none";
                         this.onToggleCompleted(taskDataId, "unactive");
@@ -187,8 +242,40 @@ class TaskView {
             const newTask = (event.target as HTMLInputElement).value.trim();
             (event.target as HTMLInputElement).value = "";
             if (newTask) {
+                this.handleShowNotify(
+                    messageNotify.find((item) => item.type === "add")
+                        ?.message as string
+                );
                 this.onTaskAdded(newTask);
             }
+        }
+    };
+
+    handleShowNotify = (message: string, type?: string): void => {
+        if (type) {
+            this.notificationDialog.style.color = "#004085";
+            this.notificationDialog.style.backgroundColor = "#cce5ff";
+            this.notificationDialog.style.border = `1px solid #004085`;
+        } else {
+            this.notificationDialog.style.color = "#155724";
+            this.notificationDialog.style.backgroundColor = "#d4edda";
+            this.notificationDialog.style.border = `1px solid #155724`;
+        }
+
+        this.notificationDialog.style.display = "block";
+        this.notificationContent.innerText = message;
+        this.progessAlert = false;
+        clearTimeout(this.IDTimer);
+        this.IDTimer = setTimeout(() => {
+            this.notificationDialog.style.display = "none";
+            this.progessAlert = true;
+        }, 3000);
+    };
+
+    hideNotification = () => {
+        if (this.progessAlert) {
+            clearTimeout(this.IDTimer);
+            this.notificationDialog.style.display = "none";
         }
     };
 
@@ -228,6 +315,10 @@ class TaskView {
             this.onTaskClosed(this.currentTaskId);
             this.toggleConfirmDialog(false);
             this.currentTaskId = null;
+            this.handleShowNotify(
+                messageNotify.find((item) => item.type === "remove")
+                    ?.message as string
+            );
         }
     };
 

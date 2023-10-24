@@ -131,13 +131,18 @@ class TaskModel {
         }
     
         const locationHash = window.location.hash;
-        locationHash === '#completed'
-            ? this.filterTask('completed', renderTasks)
-            : locationHash === '#active'
-            ? this.filterTask('active', renderTasks)
-            : renderTasks(this.tasks);
-    
+        const COMPLETED_STATUS = '#completed';
+        const ACTIVE_STATUS = '#active';
+
+        if (locationHash === COMPLETED_STATUS || locationHash === ACTIVE_STATUS) {
+            const type = locationHash.replace('#', '');
+            this.filterTask(type, renderTasks);
+        } else {
+            renderTasks(this.tasks);
+        }
+
         storage.saveTasks(this.tasks);
+
     }
     
     checkAllToggleTask = (renderTasks: (tasks: Task[]) => void): void => {
