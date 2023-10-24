@@ -81,7 +81,9 @@ class TaskView {
             return;
         }
 
-        this.totalElement.innerHTML = `${this.taskModel.getTasks("getall").filter((item: Task) => !item.isCompleted).length} item left`;
+        const incompleteTasksCount = this.taskModel.getTasks("getall").filter((item: Task) => !item.isCompleted).length;
+        const itemsText = incompleteTasksCount === 1 ? "item" : "items";
+        this.totalElement.innerHTML = incompleteTasksCount > 1 ? `${incompleteTasksCount} ${itemsText} left` : `${incompleteTasksCount} item left`;
         this.taskList.innerHTML = tasks
             .map(({ id, content, createdAt, updatedAt, isCompleted }: { id: number; content: string; createdAt: string; updatedAt: string; isCompleted: boolean;}) =>  
                 `<li data-id="${id}"  data-checked="${isCompleted ? "true" : "false"}" class="content-data">
