@@ -2,7 +2,7 @@ import TaskController from "./controllers/task.controler";
 import TaskModel from "./models/task.model";
 import TaskView from "./views/task.view";
 
-// Define the App class.
+
 export class App {
     // Method to start the application.
     startApp() {
