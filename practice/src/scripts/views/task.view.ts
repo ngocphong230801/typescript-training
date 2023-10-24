@@ -88,6 +88,8 @@ class TaskView {
                 ?.message as string
         );
         this.onClearCompleted();
+        const clearCompletedButton = querySelector(".clear-completed") as HTMLElement;
+        clearCompletedButton.style.display = "none";
     };
 
     renderTasks = (tasks: Task[]): void => {
