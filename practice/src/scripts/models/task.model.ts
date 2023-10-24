@@ -7,16 +7,16 @@ class TaskModel {
     public getTasks(type?: string): Task[] {
         if (type) {
             return this.tasks;
-        } else {
-            if (window.location.hash === "#completed") {
-                return this.tasks.filter((task: Task) => task.isCompleted);
-            } else if (window.location.hash === "#active") {
-                return this.tasks.filter((task: Task) => !task.isCompleted);
-            } else {
-                return this.tasks;
-            }
         }
+    
+        const locationHash = window.location.hash;
+        return locationHash === '#completed'
+            ? this.tasks.filter((task: Task) => task.isCompleted)
+            : locationHash === '#active'
+            ? this.tasks.filter((task: Task) => !task.isCompleted)
+            : this.tasks;
     }
+    
     private currentTaskId: number | null = null;
 
     constructor() {
@@ -84,65 +84,62 @@ class TaskModel {
     };
 
 
-    toggleTask = (
-        id: number,
-        type: string,
-        renderTasks: (tasks: Task[]) => void
-    ) => {
+    toggleTask(id: number, type: string, renderTasks: (tasks: Task[]) => void) {
         const currentTime = new Date();
         const hours = currentTime.getHours();
         const formattedHours = hours % 24 || 24;
         const minutes = currentTime.getMinutes();
         const seconds = currentTime.getSeconds();
-        const formattedTime = `${formattedHours}:${minutes}:${seconds
-            .toString()
-            .padStart(2, "0")}, ${currentTime.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
+        const formattedTime = `${formattedHours}:${minutes}:${seconds.toString().padStart(2, '0')}, ${currentTime.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
         })}`;
-
-        if (type === "active") {
-            this.tasks.forEach((task: Task) => {
-                if (task.id == id) {
-                    task.isCompleted = true;
-                    task.updatedAt = formattedTime;
-                }
-            });
-        } else if (type === "unactive") {
-            this.tasks.forEach((task: Task) => {
-                if (task.id == id) {
-                    task.isCompleted = false;
-                    task.updatedAt = formattedTime;
-                }
-            });
-        } else if (type === "toggle") {
-            const checkTask = this.tasks.find(
-                (item: Task) => !item.isCompleted
-            );
-
-            this.tasks.forEach((task: Task) => {
-                if (checkTask) {
-                    if (!task.isCompleted) {
+    
+        switch (type) {
+            case 'active':
+                this.tasks.forEach((task: Task) => {
+                    if (task.id === id) {
                         task.isCompleted = true;
+                        task.updatedAt = formattedTime;
                     }
-                } else {
-                    task.isCompleted = false;
-                }
-                task.updatedAt = formattedTime;
-            });
+                });
+                break;
+            case 'unactive':
+                this.tasks.forEach((task: Task) => {
+                    if (task.id === id) {
+                        task.isCompleted = false;
+                        task.updatedAt = formattedTime;
+                    }
+                });
+                break;
+            case 'toggle':
+                const checkTask = this.tasks.find((item: Task) => !item.isCompleted);
+                this.tasks.forEach((task: Task) => {
+                    if (checkTask) {
+                        if (!task.isCompleted) {
+                            task.isCompleted = true;
+                        }
+                    } else {
+                        task.isCompleted = false;
+                    }
+                    task.updatedAt = formattedTime;
+                });
+                break;
+            default:
+                break;
         }
-
-        if (window.location.hash === "#completed") {
-            this.filterTask("completed", renderTasks);
-        } else if (window.location.hash === "#active") {
-            this.filterTask("active", renderTasks);
-        } else {
-            renderTasks(this.tasks);
-        }
+    
+        const locationHash = window.location.hash;
+        locationHash === '#completed'
+            ? this.filterTask('completed', renderTasks)
+            : locationHash === '#active'
+            ? this.filterTask('active', renderTasks)
+            : renderTasks(this.tasks);
+    
         storage.saveTasks(this.tasks);
-    };
-
+    }
+    
     checkAllToggleTask = (renderTasks: (tasks: Task[]) => void): void => {
         this.toggleTask(0, "toggle", renderTasks);
     };

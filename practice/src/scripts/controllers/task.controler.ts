@@ -41,12 +41,7 @@ class TaskController {
             if (element instanceof HTMLElement) {
                 element.classList.remove("active-btn");
                 if (element.dataset.action === status.slice(1, status.length)) {
-                    if (
-                        element.dataset.action ===
-                        status.slice(1, status.length)
-                    ) {
                         element.classList.add("active-btn");
-                    }
                 }
             }
         });
