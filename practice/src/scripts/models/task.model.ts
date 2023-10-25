@@ -21,6 +21,8 @@ class TaskModel {
     private ALL_FILTER = "all";
     private ACTIVE_FILTER = "active";
     private COMPLETED_FILTER = "completed";
+    private UN_ACTIVE_FILTER = 'unactive';
+    private TOGGLE = 'toggle';
 
     constructor() {
         this.init();
@@ -100,7 +102,7 @@ class TaskModel {
         })}`;
     
         switch (type) {
-            case 'active':
+            case this.ACTIVE_FILTER:
                 this.tasks.forEach((task: Task) => {
                     if (task.id === id) {
                         task.isCompleted = true;
@@ -108,7 +110,7 @@ class TaskModel {
                     }
                 });
                 break;
-            case 'unactive':
+            case this.UN_ACTIVE_FILTER:
                 this.tasks.forEach((task: Task) => {
                     if (task.id === id) {
                         task.isCompleted = false;
@@ -116,7 +118,7 @@ class TaskModel {
                     }
                 });
                 break;
-            case 'toggle':
+            case this.TOGGLE:
                 const checkTask = this.tasks.find((item: Task) => !item.isCompleted);
                 this.tasks.forEach((task: Task) => {
                     if (checkTask) {

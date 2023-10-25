@@ -1,15 +1,15 @@
 export const Notify = {
-    all: "all",
-    active: "active",
-    completed: "completed",
-    add: "add",
-    clear: "clear",
-    remove: "remove",
-    toggle_active: "toggle-active",
-    toggle_unactive: "toggle-unactive",
-    toggle_active_all: "toggle-active-all",
-    toggle_unactive_all: "toggle-unactive-all",
-    edit: "edit",
+    All: "all",
+    ACTIVE: "active",
+    COMPLETED: "completed",
+    ADD: "add",
+    CLEAR: "clear",
+    REMOVE: "remove",
+    TOGGLE_ACTIVE: "toggle-active",
+    TOGGLE_UN_ACTIVE: "toggle-unactive",
+    TOGGLE_ACTIVE_ALL: "toggle-active-all",
+    TOGGLE_UN_ACTIVE_ALL: "toggle-unactive-all",
+    EDIT: "edit",
 };
 
 export const messageNotify: {
@@ -18,56 +18,56 @@ export const messageNotify: {
         message: string;
     };
 } = {
-    [Notify.all]: {
-        type: Notify.all,
+    [Notify.All]: {
+        type: Notify.All,
         message: "Your action has been executed! The active tasks are showing.",
     },
-    [Notify.active]: {
-        type: Notify.active,
+    [Notify.ACTIVE]: {
+        type: Notify.ACTIVE,
         message: "Your action has been executed! The active tasks are showing.",
     },
-    [Notify.completed]: {
-        type: Notify.completed,
+    [Notify.COMPLETED]: {
+        type: Notify.COMPLETED,
         message:
             "Your action has been executed! The completed tasks are showing.",
     },
-    [Notify.clear]: {
-        type: Notify.clear,
+    [Notify.CLEAR]: {
+        type: Notify.CLEAR,
         message:
             "Your action has been executed! All of the completed tasks were cleared.",
     },
-    [Notify.add]: {
-        type: Notify.add,
+    [Notify.ADD]: {
+        type: Notify.ADD,
         message:
             "Your action has been executed! A task was added successfully.",
     },
-    [Notify.remove]: {
-        type: Notify.remove,
+    [Notify.REMOVE]: {
+        type: Notify.REMOVE,
         message:
             "Your action has been executed! A task was removed successfully.",
     },
-    [Notify.toggle_active]: {
-        type: Notify.toggle_active,
+    [Notify.TOGGLE_ACTIVE]: {
+        type: Notify.TOGGLE_ACTIVE,
         message:
             "Your action has been executed! A task was checked done successfully.",
     },
-    [Notify.toggle_unactive]: {
-        type: Notify.toggle_unactive,
+    [Notify. TOGGLE_UN_ACTIVE]: {
+        type: Notify. TOGGLE_UN_ACTIVE,
         message:
             "Your action has been executed! A task was unchecked done successfully.",
     },
-    [Notify.toggle_active_all]: {
-        type: Notify.toggle_active_all,
+    [Notify.TOGGLE_ACTIVE_ALL]: {
+        type: Notify.TOGGLE_ACTIVE_ALL,
         message:
             "Your action has been executed! All of the tasks are checked as completed.",
     },
-    [Notify.toggle_unactive_all]: {
-        type: Notify.toggle_unactive_all,
+    [Notify.TOGGLE_UN_ACTIVE_ALL]: {
+        type: Notify.TOGGLE_UN_ACTIVE_ALL,
         message:
             "Your action has been executed! All of the tasks are unchecked as completed.",
     },
-    [Notify.edit]: {
-        type: Notify.edit,
+    [Notify.EDIT]: {
+        type: Notify.EDIT,
         message:
             "Your action has been executed! A task was updated successfully.",
     },

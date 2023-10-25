@@ -83,7 +83,7 @@ class TaskView {
     };
 
     handleClearCompleted = (): void => {
-        this.handleShowNotify(messageNotify[Notify.clear].message);
+        this.handleShowNotify(messageNotify[Notify.CLEAR].message);
         this.onClearCompleted();
         const clearCompletedButton = querySelector(".clear-completed") as HTMLElement;
         clearCompletedButton.style.display = "none";
@@ -140,7 +140,7 @@ class TaskView {
                         this.toggleElementVisibility(contentText, editInput);
                         if (typeof this.onTaskEdited === 'function') {
                             this.onTaskEdited(Number(item.getAttribute('data-id')), editInput.value);
-                            this.handleShowNotify(messageNotify[Notify.edit].message
+                            this.handleShowNotify(messageNotify[Notify.EDIT].message
                             );
                         }
                     }
@@ -160,11 +160,11 @@ class TaskView {
 
         if (checkAllChecked) {
             this.handleShowNotify(
-                messageNotify[Notify.toggle_active_all].message
+                messageNotify[Notify.TOGGLE_ACTIVE_ALL].message
             );
         } else {
             this.handleShowNotify(
-                messageNotify[Notify.toggle_unactive_all].message
+                messageNotify[Notify.TOGGLE_UN_ACTIVE_ALL].message
             );
         }
 
@@ -207,11 +207,11 @@ class TaskView {
                         checkmark.style.display = "inline-block";
                         this.onToggleCompleted(taskDataId, "active");
                         this.handleShowNotify(
-                            messageNotify[Notify.toggle_active].message
+                            messageNotify[Notify.TOGGLE_ACTIVE].message
                         );
                     } else {
                         this.handleShowNotify(
-                            messageNotify[Notify.toggle_unactive].message
+                            messageNotify[Notify.TOGGLE_UN_ACTIVE].message
                         );
                         taskContentElement.style.textDecoration = "none";
                         checkmark.style.display = "none";
@@ -227,7 +227,7 @@ class TaskView {
             const newTask = (event.target as HTMLInputElement).value.trim();
             (event.target as HTMLInputElement).value = "";
             if (newTask) {
-                this.handleShowNotify(messageNotify[Notify.add].message);
+                this.handleShowNotify(messageNotify[Notify.ADD].message);
                 this.onTaskAdded(newTask);
             }
         }
@@ -297,7 +297,7 @@ class TaskView {
             this.onTaskClosed(this.currentTaskId);
             this.toggleConfirmDialog(false);
             this.currentTaskId = null;
-            this.handleShowNotify(messageNotify[Notify.remove].message);
+            this.handleShowNotify(messageNotify[Notify.REMOVE].message);
         }
     };
 
