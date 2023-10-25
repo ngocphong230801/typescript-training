@@ -2,7 +2,8 @@
 
 - Introduce:
   -Todo List TypeScript - A web application with HTML/CSS & Typescript.
-- Plan: [Plan practice](https://docs.google.com/document/d/1AZjDjLQTO0izdpmjNIjz_fL-PzHAmpFSQCeZyTm1cU8/edit).
+  - Plan: [Plan practice](https://docs.google.com/document/d/1AZjDjLQTO0izdpmjNIjz_fL-PzHAmpFSQCeZyTm1cU8/edit).
+  - Sample app: [App](https://g-cunguyen-typescript-practice-one.netlify.app/).
 
 ## Requirements
 
@@ -34,38 +35,97 @@
 
 ## Development Environment
 
-- Node v18.16
-- Tsc  v5.2.2
-- Pnpm v8.6.8
+- [Visual Studio Code](https://code.visualstudio.com/).
+- [Github](https://github.com/ngocphong230801/typescript-training).
+- [HTML5 & CSS3 & TypeScript](https://github.com/microsoft/TypeScript).
+- [Branch](https://github.com/ngocphong230801/typescript-training/tree/feature/practice).
+
+## Development
+
+- [App](https://todo-list-app-ngocphong230801.vercel.app/).
+
+## Folder structure 
+
+practice
+~~~
+|-- src
+    |-- assets
+            |-- ...
+    |-- styles
+        |-- abtracts
+            |-- index.css
+            |-- variables.css
+        |-- bases
+            |-- index.css
+            |-- reset.css
+        |-- components
+            |-- index.css
+            |-- app.css
+            |-- app-todo-content.css
+            |-- confirm-delete.css
+            |-- header.css            
+            |-- loading.css
+            |-- ovelay.css
+        |-- index.css
+    |-- scripts
+        |-- constants
+            |-- index.ts
+            |-- keys.ts
+            |-- notify.ts
+            |-- types.ts
+        |-- controllers
+            |-- task.controller.ts
+        |-- helpers
+            |-- index.ts
+            |-- display-element.ts
+            |-- dom-element.ts
+            |-- messages.ts
+        |-- models
+            |-- task.model.ts
+        |-- services
+            |-- localStorage.ts
+        |-- views
+            |-- task.view.ts
+        |-- app.ts
+        |-- index.ts
+    |-- index.html
+    |-- README.md
+|-- .gitignore
+|-- package.json
+|-- pnpm-lock.yaml
+|-- tsconfig.json
+|-- README.md
+~~~
+
 
 ## Getting started
 
 - Step 01: Clone repository with HTTPS:
 
 ```
-git clone https://github.com/ngocphong230801/typescript-training
+git clone https://github.com/ngocphong230801/typescript-training.
 ```
 
 - Step 02: Move to folder which just cloned in your computer:
 
 ```
-cd TypeScript-Training
+cd TypeScript-Training.
 ```
 
-- Step 03: Next open folder practice-two
+- Step 03: Next open folder practice-two.
 
 ```
-cd practice
+cd practice.
 ```
 
 - Step 04: Open terminal and type:
 
 ```
-pnpm install
+pnpm install.
 ```
 
 - Step 05: Finally run with:
 
 ```
-pnpm start
+pnpm start.
 ```
