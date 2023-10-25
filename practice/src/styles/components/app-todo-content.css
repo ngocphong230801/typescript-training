@@ -118,6 +118,11 @@
   cursor: pointer;
 }
 
+.app-todo-content .editable-content {
+  width: 500px;
+  word-wrap: break-word;
+}
+
 .app-todo-content .task-content {
   margin-left: 25px;
 }
@@ -196,6 +201,11 @@
     padding: 0;
     align-items: center;
   }
+
+  .app-todo-content .editable-content {
+    width: 400px;
+  }
+  
 }
 
 
@@ -219,4 +229,5 @@
     margin-right: 2px;
     align-items: center;
   }
+
 }
