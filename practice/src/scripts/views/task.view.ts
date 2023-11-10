@@ -1,4 +1,4 @@
-import { querySelector, getElementById, querySelectorAll } from "../helpers";
+import { querySelector, getElementById, querySelectorAll , toggleDisplay } from "../helpers";
 import { messageNotify, Task, keys, Notify } from "../constants";
 import TaskModel from "../models/task.model";
 
@@ -79,6 +79,20 @@ class TaskView {
         this.checkAllElement.addEventListener("click",this.handleToggleAllItems);
         this.closeNotifyCation.addEventListener("click", () => {
             this.notificationDialog.style.display = "none";
+        });
+    };
+
+    handleReloadWindows = (): void => {
+        const status = window.location.hash;
+        let elements: NodeList = querySelectorAll(".task-filter-item > a");
+
+        elements.forEach(function (element) {
+            if (element instanceof HTMLElement) {
+                element.classList.remove("active-btn");
+                if (element.dataset.action === status.slice(1, status.length)) {
+                        element.classList.add("active-btn");
+                }
+            }
         });
     };
 
@@ -193,7 +207,7 @@ class TaskView {
         const clickedElement = event.target as HTMLElement;
 
         if (clickedElement.classList.contains("task-icon")) {
-            const taskDataId = parseInt(clickedElement.parentElement?.dataset.id || "NaN");
+            const taskDataId = parseInt(clickedElement.parentElement?.dataset.id);
             const currentStatus = clickedElement.parentElement?.dataset.checked;
             if (taskDataId || (taskDataId === 0 && currentStatus)) {
                 const newStatus = currentStatus === "true" ? "unactive" : "active";

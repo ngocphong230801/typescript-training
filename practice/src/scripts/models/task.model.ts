@@ -1,22 +1,10 @@
 import storage from "../services/localStorage";
 import { Task } from "../constants";
+import { formatTime } from "../helpers";
 
 class TaskModel {
     protected tasks: Task[];
     private lastTaskId: number;
-    public getTasks(type?: string): Task[] {
-        if (type) {
-            return this.tasks;
-        }
-    
-        const locationHash = window.location.hash;
-        return locationHash === '#completed'
-            ? this.tasks.filter((task: Task) => task.isCompleted)
-            : locationHash === '#active'
-            ? this.tasks.filter((task: Task) => !task.isCompleted)
-            : this.tasks;
-    }
-    
     private currentTaskId: number | null = null;
     private ALL_FILTER = "all";
     private ACTIVE_FILTER = "active";
@@ -33,17 +21,23 @@ class TaskModel {
         this.lastTaskId = 0;
     };
 
+    getTasks(type?: string): Task[] {
+        if (type) {
+            return this.tasks;
+        }
+    
+        const locationHash = window.location.hash;
+        return locationHash === '#completed'
+            ? this.tasks.filter((task: Task) => task.isCompleted)
+            : locationHash === '#active'
+            ? this.tasks.filter((task: Task) => !task.isCompleted)
+            : this.tasks;
+    }
+    
     addTask = (task: string): void => {
         const currentTime = new Date();
-        const hours = currentTime.getHours();
-        const formattedHours = (hours % 24) || 24;
-        const minutes = currentTime.getMinutes();
-        const seconds = currentTime.getSeconds();
-        const formattedTime = `${formattedHours}:${minutes}:${seconds.toString().padStart(2, '0')}, ${currentTime.toLocaleDateString(
-            "en-US",
-            { year: "numeric", month: "short", day: "numeric" }
-        )}`;
-    
+        const formattedTime = formatTime(currentTime);
+
         const newTask: Task = {
             id: this.lastTaskId++,
             content: task,
@@ -75,14 +69,7 @@ class TaskModel {
         if (taskIndex !== -1) {
             this.tasks[taskIndex].content = newContent;
             const currentTime = new Date();
-            const hours = currentTime.getHours();
-            const formattedHours = (hours % 24) || 24;
-            const minutes = currentTime.getMinutes();
-            const seconds = currentTime.getSeconds();
-            const formattedTime = `${formattedHours}:${minutes}:${seconds.toString().padStart(2, '0')}, ${currentTime.toLocaleDateString(
-                "en-US",
-                { year: "numeric", month: "short", day: "numeric" }
-            )}`;
+            const formattedTime = formatTime(currentTime);
             this.tasks[taskIndex].updatedAt = formattedTime;
             storage.saveTasks(this.tasks);
         }
@@ -91,16 +78,7 @@ class TaskModel {
 
     toggleTask(id: number, type: string, renderTasks: (tasks: Task[]) => void) {
         const currentTime = new Date();
-        const hours = currentTime.getHours();
-        const formattedHours = hours % 24 || 24;
-        const minutes = currentTime.getMinutes();
-        const seconds = currentTime.getSeconds();
-        const formattedTime = `${formattedHours}:${minutes}:${seconds.toString().padStart(2, '0')}, ${currentTime.toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-        })}`;
-    
+        const formattedTime = formatTime(currentTime);
         switch (type) {
             case this.ACTIVE_FILTER:
                 this.tasks.forEach((task: Task) => {
