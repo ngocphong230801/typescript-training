@@ -1,16 +1,13 @@
 import storage from "../services/localStorage";
-import { Task } from "../constants";
+import { Task, TaskFilters } from "../constants";
 import { formatTime } from "../helpers";
+
 
 class TaskModel {
     protected tasks: Task[];
     private lastTaskId: number;
     private currentTaskId: number | null = null;
-    private ALL_FILTER = "all";
-    private ACTIVE_FILTER = "active";
-    private COMPLETED_FILTER = "completed";
-    private UN_ACTIVE_FILTER = 'unactive';
-    private TOGGLE = 'toggle';
+    private filters = TaskFilters;
 
     constructor() {
         this.init();
@@ -80,7 +77,7 @@ class TaskModel {
         const currentTime = new Date();
         const formattedTime = formatTime(currentTime);
         switch (type) {
-            case this.ACTIVE_FILTER:
+            case this.filters.ACTIVE_FILTER:
                 this.tasks.forEach((task: Task) => {
                     if (task.id === id) {
                         task.isCompleted = true;
@@ -88,7 +85,7 @@ class TaskModel {
                     }
                 });
                 break;
-            case this.UN_ACTIVE_FILTER:
+            case this.filters.UN_ACTIVE_FILTER:
                 this.tasks.forEach((task: Task) => {
                     if (task.id === id) {
                         task.isCompleted = false;
@@ -96,7 +93,7 @@ class TaskModel {
                     }
                 });
                 break;
-            case this.TOGGLE:
+            case this.filters.TOGGLE:
                 const checkTask = this.tasks.find((item: Task) => !item.isCompleted);
                 this.tasks.forEach((task: Task) => {
                     if (checkTask) {
@@ -114,10 +111,7 @@ class TaskModel {
         }
     
         const locationHash = window.location.hash;
-        const COMPLETED_STATUS = '#completed';
-        const ACTIVE_STATUS = '#active';
-
-        if (locationHash === COMPLETED_STATUS || locationHash === ACTIVE_STATUS) {
+        if (locationHash === this.filters.COMPLETED_STATUS || locationHash === this.filters.ACTIVE_STATUS) {
             const type = locationHash.replace('#', '');
             this.filterTask(type, renderTasks);
         } else {
@@ -136,13 +130,13 @@ class TaskModel {
         let taskFilters: null | Task[] = null;
 
         switch (actionFilter) {
-            case this.ALL_FILTER:
+            case this.filters.ALL_FILTER:
                 taskFilters = this.tasks;
                 break;
-            case this.ACTIVE_FILTER:
+            case this.filters.ACTIVE_FILTER:
                 taskFilters = this.tasks.filter((task) => !task.isCompleted);
                 break;
-            case this.COMPLETED_FILTER:
+            case this.filters.COMPLETED_FILTER:
                 taskFilters = this.tasks.filter((task) => task.isCompleted);
                 break;
             default:

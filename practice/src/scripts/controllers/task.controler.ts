@@ -1,6 +1,5 @@
 import TaskView from "../views/task.view";
 import TaskModel from "../models/task.model";
-import { querySelectorAll } from "../helpers";
 
 class TaskController {
     private taskModel: TaskModel;

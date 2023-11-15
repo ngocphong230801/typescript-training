@@ -1,4 +1,4 @@
-export const Notify = {
+export const TYPES = {
     All: "all",
     ACTIVE: "active",
     COMPLETED: "completed",
@@ -12,63 +12,73 @@ export const Notify = {
     EDIT: "edit",
 };
 
-export const messageNotify: {
-    [x: string]: {
-        type: string;
-        message: string;
-    };
-} = {
-    [Notify.All]: {
-        type: Notify.All,
-        message: "Your action has been executed! The active tasks are showing.",
+const MESSAGES = {
+    All : "Your action has been executed! The active tasks are showing",
+    ACTIVE: "Your action has been executed! The active tasks are showing.",
+    COMPLETED: "Your action has been executed! The completed tasks are showing",
+    ADD: "Your action has been executed! A task was added successfully.",
+    CLEAR: "Your action has been executed! All of the completed tasks were cleared.",
+    REMOVE: "Your action has been executed! A task was removed successfully.",
+    TOGGLE_ACTIVE: "Your action has been executed! A task was checked done successfully.",
+    TOGGLE_UN_ACTIVE: "Your action has been executed! A task was unchecked done successfully.",
+    TOGGLE_ACTIVE_ALL: "Your action has been executed! All of the tasks are checked as completed.",
+    TOGGLE_UN_ACTIVE_ALL: "Your action has been executed! All of the tasks are unchecked as completed.",
+    EDIT: "Your action has been executed! A task was updated successfully.",
+}
+
+export const messageNotify = {
+
+    [TYPES.All]: {
+        type: TYPES.All,
+        message: MESSAGES.All
     },
-    [Notify.ACTIVE]: {
-        type: Notify.ACTIVE,
-        message: "Your action has been executed! The active tasks are showing.",
+
+    [TYPES.ACTIVE]: {
+        type: TYPES.ACTIVE,
+        message: MESSAGES.ACTIVE
     },
-    [Notify.COMPLETED]: {
-        type: Notify.COMPLETED,
-        message:
-            "Your action has been executed! The completed tasks are showing.",
+
+    [TYPES.COMPLETED]: {
+        type: TYPES.COMPLETED,
+        message: MESSAGES.COMPLETED
     },
-    [Notify.CLEAR]: {
-        type: Notify.CLEAR,
-        message:
-            "Your action has been executed! All of the completed tasks were cleared.",
+
+    [TYPES.CLEAR]: {
+        type: TYPES.CLEAR,
+        message: MESSAGES.CLEAR
     },
-    [Notify.ADD]: {
-        type: Notify.ADD,
-        message:
-            "Your action has been executed! A task was added successfully.",
+
+    [TYPES.ADD]: {
+        type: TYPES.ADD,
+        message: MESSAGES.ADD
     },
-    [Notify.REMOVE]: {
-        type: Notify.REMOVE,
-        message:
-            "Your action has been executed! A task was removed successfully.",
+
+    [TYPES.REMOVE]: {
+        type: TYPES.REMOVE,
+        message: MESSAGES.REMOVE
     },
-    [Notify.TOGGLE_ACTIVE]: {
-        type: Notify.TOGGLE_ACTIVE,
-        message:
-            "Your action has been executed! A task was checked done successfully.",
+    
+    [TYPES.TOGGLE_ACTIVE]: {
+        type: TYPES.TOGGLE_ACTIVE,
+        message: MESSAGES.TOGGLE_ACTIVE
     },
-    [Notify. TOGGLE_UN_ACTIVE]: {
-        type: Notify. TOGGLE_UN_ACTIVE,
-        message:
-            "Your action has been executed! A task was unchecked done successfully.",
+
+    [TYPES. TOGGLE_UN_ACTIVE]: {
+        type: TYPES. TOGGLE_UN_ACTIVE,
+        message: MESSAGES.TOGGLE_ACTIVE
     },
-    [Notify.TOGGLE_ACTIVE_ALL]: {
-        type: Notify.TOGGLE_ACTIVE_ALL,
-        message:
-            "Your action has been executed! All of the tasks are checked as completed.",
+    [TYPES.TOGGLE_ACTIVE_ALL]: {
+        type: TYPES.TOGGLE_ACTIVE_ALL,
+        message: MESSAGES.TOGGLE_ACTIVE_ALL
     },
-    [Notify.TOGGLE_UN_ACTIVE_ALL]: {
-        type: Notify.TOGGLE_UN_ACTIVE_ALL,
-        message:
-            "Your action has been executed! All of the tasks are unchecked as completed.",
+
+    [TYPES.TOGGLE_UN_ACTIVE_ALL]: {
+        type: TYPES.TOGGLE_UN_ACTIVE_ALL,
+        message: MESSAGES.TOGGLE_UN_ACTIVE_ALL
     },
-    [Notify.EDIT]: {
-        type: Notify.EDIT,
-        message:
-            "Your action has been executed! A task was updated successfully.",
-    },
+
+    [TYPES.EDIT]: {
+        type: TYPES.EDIT,
+        message:MESSAGES.EDIT
+    }
 };
