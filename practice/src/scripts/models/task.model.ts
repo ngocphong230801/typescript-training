@@ -1,13 +1,12 @@
 import storage from "../services/localStorage";
-import { Task, TaskFilters } from "../constants";
+import { Task, TASKFILERS } from "../constants";
 import { formatTime } from "../helpers";
-
 
 class TaskModel {
     protected tasks: Task[];
     private lastTaskId: number;
     private currentTaskId: number | null = null;
-    private filters = TaskFilters;
+    private filters = TASKFILERS;
 
     constructor() {
         this.init();

@@ -1,5 +1,5 @@
 import { querySelector, getElementById, querySelectorAll , toggleDisplay} from "../helpers";
-import { messageNotify, Task, keys, TYPES } from "../constants";
+import { MESSAGESNOTIFY, Task, KEYS, NOTIFYS } from "../constants";
 import TaskModel from "../models/task.model";
 
 class TaskView {
@@ -97,7 +97,7 @@ class TaskView {
     };
 
     handleClearCompleted = (): void => {
-        this.handleShowtype(messageNotify[TYPES.CLEAR].message);
+        this.handleShowtype(MESSAGESNOTIFY[NOTIFYS.CLEAR]);
         this.onClearCompleted();
         const clearCompletedButton = querySelector(".clear-completed") as HTMLElement;
         toggleDisplay(clearCompletedButton, false)
@@ -154,7 +154,7 @@ class TaskView {
                         this.toggleElementVisibility(contentText, editInput);
                         if (typeof this.onTaskEdited === 'function') {
                             this.onTaskEdited(Number(item.getAttribute('data-id')), editInput.value);
-                            this.handleShowtype(messageNotify[TYPES.EDIT].message
+                            this.handleShowtype(MESSAGESNOTIFY[NOTIFYS.EDIT]
                             );
                         }
                     }
@@ -174,11 +174,11 @@ class TaskView {
 
         if (checkAllChecked) {
             this.handleShowtype(
-                messageNotify[TYPES.TOGGLE_ACTIVE_ALL].message
+                MESSAGESNOTIFY[NOTIFYS.TOGGLE_ACTIVE_ALL]
             );
         } else {
             this.handleShowtype(
-                messageNotify[TYPES.TOGGLE_UN_ACTIVE_ALL].message
+                MESSAGESNOTIFY[NOTIFYS.TOGGLE_UN_ACTIVE_ALL]
             );
         }
 
@@ -189,7 +189,7 @@ class TaskView {
         const action = element.getAttribute("data-action");
 
         if (action !== "all") {
-            this.handleShowtype(messageNotify[action].message, "filter");
+            this.handleShowtype(MESSAGESNOTIFY[action], "filter");
         }
 
         if (action) {
@@ -221,11 +221,11 @@ class TaskView {
                         checkmark.style.display = "inline-block";
                         this.onToggleCompleted(taskDataId, "active");
                         this.handleShowtype(
-                            messageNotify[TYPES.TOGGLE_ACTIVE].message
+                            MESSAGESNOTIFY[NOTIFYS.TOGGLE_ACTIVE]
                         );
                     } else {
                         this.handleShowtype(
-                            messageNotify[TYPES.TOGGLE_UN_ACTIVE].message
+                            MESSAGESNOTIFY[NOTIFYS.TOGGLE_UN_ACTIVE]
                         );
                         taskContentElement.style.textDecoration = "none";
                         toggleDisplay(checkmark, false)
@@ -237,11 +237,11 @@ class TaskView {
     };
 
     handleTaskInput = (event: KeyboardEvent): void => {
-        if (event.key === keys.ENTER) {
+        if (event.key === KEYS.ENTER) {
             const newTask = (event.target as HTMLInputElement).value.trim();
             (event.target as HTMLInputElement).value = "";
             if (newTask) {
-                this.handleShowtype(messageNotify[TYPES.ADD].message);
+                this.handleShowtype(MESSAGESNOTIFY[NOTIFYS.ADD]);
                 this.onTaskAdded(newTask);
             }
         }
@@ -311,7 +311,7 @@ class TaskView {
             this.onTaskClosed(this.currentTaskId);
             this.toggleConfirmDialog(false);
             this.currentTaskId = null;
-            this.handleShowtype(messageNotify[TYPES.REMOVE].message);
+            this.handleShowtype(MESSAGESNOTIFY[NOTIFYS.REMOVE]);
         }
     };
 

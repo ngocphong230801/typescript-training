@@ -1,4 +1,4 @@
-export const keys = {
+export const KEYS = {
     ENTER: "Enter",
     SHIFT: "Shift"
 };

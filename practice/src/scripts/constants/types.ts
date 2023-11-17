@@ -6,7 +6,7 @@ export interface Task {
     isCompleted: boolean;
 };
 
-export const TaskFilters = {
+export const TASKFILERS = {
     ALL_FILTER: "all",
     ACTIVE_FILTER: "active",
     COMPLETED_FILTER: "completed",

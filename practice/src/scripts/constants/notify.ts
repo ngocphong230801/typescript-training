@@ -1,4 +1,4 @@
-export const TYPES = {
+export const NOTIFYS = {
     All: "all",
     ACTIVE: "active",
     COMPLETED: "completed",
@@ -13,7 +13,7 @@ export const TYPES = {
 };
 
 const MESSAGES = {
-    All : "Your action has been executed! The active tasks are showing",
+    All_TASKS: "Your action has been executed! The active tasks are showing",
     ACTIVE: "Your action has been executed! The active tasks are showing.",
     COMPLETED: "Your action has been executed! The completed tasks are showing",
     ADD: "Your action has been executed! A task was added successfully.",
@@ -26,59 +26,27 @@ const MESSAGES = {
     EDIT: "Your action has been executed! A task was updated successfully.",
 }
 
-export const messageNotify = {
+export const MESSAGESNOTIFY = {
 
-    [TYPES.All]: {
-        type: TYPES.All,
-        message: MESSAGES.All
-    },
+    [NOTIFYS.All]: MESSAGES.All_TASKS,
 
-    [TYPES.ACTIVE]: {
-        type: TYPES.ACTIVE,
-        message: MESSAGES.ACTIVE
-    },
+    [NOTIFYS.ACTIVE]: MESSAGES.ACTIVE,
 
-    [TYPES.COMPLETED]: {
-        type: TYPES.COMPLETED,
-        message: MESSAGES.COMPLETED
-    },
+    [NOTIFYS.COMPLETED]: MESSAGES.COMPLETED,
 
-    [TYPES.CLEAR]: {
-        type: TYPES.CLEAR,
-        message: MESSAGES.CLEAR
-    },
+    [NOTIFYS.CLEAR]: MESSAGES.CLEAR ,
 
-    [TYPES.ADD]: {
-        type: TYPES.ADD,
-        message: MESSAGES.ADD
-    },
+    [NOTIFYS.ADD]: MESSAGES.ADD,
 
-    [TYPES.REMOVE]: {
-        type: TYPES.REMOVE,
-        message: MESSAGES.REMOVE
-    },
+    [NOTIFYS.REMOVE]: MESSAGES.REMOVE,
     
-    [TYPES.TOGGLE_ACTIVE]: {
-        type: TYPES.TOGGLE_ACTIVE,
-        message: MESSAGES.TOGGLE_ACTIVE
-    },
+    [NOTIFYS.TOGGLE_ACTIVE]: MESSAGES.TOGGLE_ACTIVE,
 
-    [TYPES. TOGGLE_UN_ACTIVE]: {
-        type: TYPES. TOGGLE_UN_ACTIVE,
-        message: MESSAGES.TOGGLE_ACTIVE
-    },
-    [TYPES.TOGGLE_ACTIVE_ALL]: {
-        type: TYPES.TOGGLE_ACTIVE_ALL,
-        message: MESSAGES.TOGGLE_ACTIVE_ALL
-    },
+    [NOTIFYS. TOGGLE_UN_ACTIVE]: MESSAGES.TOGGLE_UN_ACTIVE,
 
-    [TYPES.TOGGLE_UN_ACTIVE_ALL]: {
-        type: TYPES.TOGGLE_UN_ACTIVE_ALL,
-        message: MESSAGES.TOGGLE_UN_ACTIVE_ALL
-    },
+    [NOTIFYS.TOGGLE_ACTIVE_ALL]: MESSAGES.TOGGLE_ACTIVE_ALL,
 
-    [TYPES.EDIT]: {
-        type: TYPES.EDIT,
-        message:MESSAGES.EDIT
-    }
+    [NOTIFYS.TOGGLE_UN_ACTIVE_ALL]: MESSAGES.TOGGLE_UN_ACTIVE_ALL,
+
+    [NOTIFYS.EDIT]: MESSAGES.EDIT
 };
