@@ -1,12 +1,12 @@
 import storage from "../services/localStorage";
-import { Task, TASKFILERS } from "../constants";
+import { Task, TaskFilters } from "../constants";
 import { formatTime } from "../helpers";
 
 class TaskModel {
     protected tasks: Task[];
     private lastTaskId: number;
     private currentTaskId: number | null = null;
-    private filters = TASKFILERS;
+    private filters = TaskFilters;
 
     constructor() {
         this.init();
@@ -17,17 +17,19 @@ class TaskModel {
         this.lastTaskId = 0;
     };
 
-    getTasks(type?: string): Task[] {
+    getTasks<T extends Task>(type?: string): T[] {
         if (type) {
-            return this.tasks;
+            return this.tasks as T[];
         }
     
         const locationHash = window.location.hash;
-        return locationHash === '#completed'
+        const filteredTasks = locationHash === '#completed'
             ? this.tasks.filter((task: Task) => task.isCompleted)
             : locationHash === '#active'
             ? this.tasks.filter((task: Task) => !task.isCompleted)
             : this.tasks;
+    
+        return filteredTasks as T[];
     }
     
     addTask = (task: string): void => {

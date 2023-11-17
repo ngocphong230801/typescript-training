@@ -103,7 +103,7 @@ class TaskView {
         toggleDisplay(clearCompletedButton, false)
     };
 
-    renderTasks = (tasks: Task[]): void => {
+    renderTasks = <T extends Task>(tasks: T[]): void => {
         if (!this.taskList) {
             console.error("Task list element not found");
             return;
