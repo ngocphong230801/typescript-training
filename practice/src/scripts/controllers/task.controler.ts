@@ -1,6 +1,5 @@
 import TaskView from "../views/task.view";
 import TaskModel from "../models/task.model";
-import { querySelectorAll } from "../helpers";
 
 class TaskController {
     private taskModel: TaskModel;
@@ -17,7 +16,6 @@ class TaskController {
         this.taskView.setTaskFilter(this.handleFilterTask);
         this.taskView.setCheckAllToggleTask(this.handleCheckAllToggleTask);
         this.taskView.setClearCompletedHandler(this.handleClearCompleted);
-        this.handleReloadWindows();
     }
 
     public init = (): void =>  {
@@ -31,20 +29,6 @@ class TaskController {
     handleCheckAllToggleTask = (): void => {
         this.taskModel.checkAllToggleTask(this.taskView.renderTasks);
         this.taskView.updateClearCompletedButtonVisibility();
-    };
-
-    handleReloadWindows = (): void => {
-        const status = window.location.hash;
-        let elements: NodeList = querySelectorAll(".task-filter-item > a");
-
-        elements.forEach(function (element) {
-            if (element instanceof HTMLElement) {
-                element.classList.remove("active-btn");
-                if (element.dataset.action === status.slice(1, status.length)) {
-                        element.classList.add("active-btn");
-                }
-            }
-        });
     };
 
     handleFilterTask = (actionFilter: string): void => {

@@ -1,28 +1,12 @@
 import storage from "../services/localStorage";
-import { Task } from "../constants";
+import { Task, TaskFilters } from "../constants";
+import { formatTime } from "../helpers";
 
 class TaskModel {
     protected tasks: Task[];
     private lastTaskId: number;
-    public getTasks(type?: string): Task[] {
-        if (type) {
-            return this.tasks;
-        }
-    
-        const locationHash = window.location.hash;
-        return locationHash === '#completed'
-            ? this.tasks.filter((task: Task) => task.isCompleted)
-            : locationHash === '#active'
-            ? this.tasks.filter((task: Task) => !task.isCompleted)
-            : this.tasks;
-    }
-    
     private currentTaskId: number | null = null;
-    private ALL_FILTER = "all";
-    private ACTIVE_FILTER = "active";
-    private COMPLETED_FILTER = "completed";
-    private UN_ACTIVE_FILTER = 'unactive';
-    private TOGGLE = 'toggle';
+    private filters = TaskFilters;
 
     constructor() {
         this.init();
@@ -33,17 +17,25 @@ class TaskModel {
         this.lastTaskId = 0;
     };
 
+    getTasks<T extends Task>(type?: string): T[] {
+        if (type) {
+            return this.tasks as T[];
+        }
+    
+        const locationHash = window.location.hash;
+        const filteredTasks = locationHash === '#completed'
+            ? this.tasks.filter((task: Task) => task.isCompleted)
+            : locationHash === '#active'
+            ? this.tasks.filter((task: Task) => !task.isCompleted)
+            : this.tasks;
+    
+        return filteredTasks as T[];
+    }
+    
     addTask = (task: string): void => {
         const currentTime = new Date();
-        const hours = currentTime.getHours();
-        const formattedHours = (hours % 24) || 24;
-        const minutes = currentTime.getMinutes();
-        const seconds = currentTime.getSeconds();
-        const formattedTime = `${formattedHours}:${minutes}:${seconds.toString().padStart(2, '0')}, ${currentTime.toLocaleDateString(
-            "en-US",
-            { year: "numeric", month: "short", day: "numeric" }
-        )}`;
-    
+        const formattedTime = formatTime(currentTime);
+
         const newTask: Task = {
             id: this.lastTaskId++,
             content: task,
@@ -75,14 +67,7 @@ class TaskModel {
         if (taskIndex !== -1) {
             this.tasks[taskIndex].content = newContent;
             const currentTime = new Date();
-            const hours = currentTime.getHours();
-            const formattedHours = (hours % 24) || 24;
-            const minutes = currentTime.getMinutes();
-            const seconds = currentTime.getSeconds();
-            const formattedTime = `${formattedHours}:${minutes}:${seconds.toString().padStart(2, '0')}, ${currentTime.toLocaleDateString(
-                "en-US",
-                { year: "numeric", month: "short", day: "numeric" }
-            )}`;
+            const formattedTime = formatTime(currentTime);
             this.tasks[taskIndex].updatedAt = formattedTime;
             storage.saveTasks(this.tasks);
         }
@@ -91,18 +76,9 @@ class TaskModel {
 
     toggleTask(id: number, type: string, renderTasks: (tasks: Task[]) => void) {
         const currentTime = new Date();
-        const hours = currentTime.getHours();
-        const formattedHours = hours % 24 || 24;
-        const minutes = currentTime.getMinutes();
-        const seconds = currentTime.getSeconds();
-        const formattedTime = `${formattedHours}:${minutes}:${seconds.toString().padStart(2, '0')}, ${currentTime.toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-        })}`;
-    
+        const formattedTime = formatTime(currentTime);
         switch (type) {
-            case this.ACTIVE_FILTER:
+            case this.filters.ACTIVE_FILTER:
                 this.tasks.forEach((task: Task) => {
                     if (task.id === id) {
                         task.isCompleted = true;
@@ -110,7 +86,7 @@ class TaskModel {
                     }
                 });
                 break;
-            case this.UN_ACTIVE_FILTER:
+            case this.filters.UN_ACTIVE_FILTER:
                 this.tasks.forEach((task: Task) => {
                     if (task.id === id) {
                         task.isCompleted = false;
@@ -118,7 +94,7 @@ class TaskModel {
                     }
                 });
                 break;
-            case this.TOGGLE:
+            case this.filters.TOGGLE:
                 const checkTask = this.tasks.find((item: Task) => !item.isCompleted);
                 this.tasks.forEach((task: Task) => {
                     if (checkTask) {
@@ -136,10 +112,7 @@ class TaskModel {
         }
     
         const locationHash = window.location.hash;
-        const COMPLETED_STATUS = '#completed';
-        const ACTIVE_STATUS = '#active';
-
-        if (locationHash === COMPLETED_STATUS || locationHash === ACTIVE_STATUS) {
+        if (locationHash === this.filters.COMPLETED_STATUS || locationHash === this.filters.ACTIVE_STATUS) {
             const type = locationHash.replace('#', '');
             this.filterTask(type, renderTasks);
         } else {
@@ -158,13 +131,13 @@ class TaskModel {
         let taskFilters: null | Task[] = null;
 
         switch (actionFilter) {
-            case this.ALL_FILTER:
+            case this.filters.ALL_FILTER:
                 taskFilters = this.tasks;
                 break;
-            case this.ACTIVE_FILTER:
+            case this.filters.ACTIVE_FILTER:
                 taskFilters = this.tasks.filter((task) => !task.isCompleted);
                 break;
-            case this.COMPLETED_FILTER:
+            case this.filters.COMPLETED_FILTER:
                 taskFilters = this.tasks.filter((task) => task.isCompleted);
                 break;
             default:

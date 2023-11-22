@@ -120,11 +120,14 @@
 
 .app-todo-content .editable-content {
   width: 500px;
-  word-wrap: break-word;
 }
 
 .app-todo-content .task-content {
   margin-left: 25px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 460px;
 }
 
 .app-todo-content .input-edit {
@@ -192,6 +195,11 @@
     gap: 5px;
   }
 
+  .app-todo-content .task-content {
+    width: 370px;
+  }
+
+
   .app-todo-content .clear-completed {
     margin-left: 0;
     align-items: center;
@@ -213,11 +221,19 @@
   .app .app-todo-content {
     width: 400px;
   }
+
+  .app-todo-content .task-content {
+    width: 330px;
+  }
 }
 
 @media screen and (max-width:400px) {
   .app .app-todo-content {
     width: 350px;
+  }
+
+  .app-todo-content .task-content {
+    width: 275px;
   }
 
   .content-action {
